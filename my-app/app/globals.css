@@ -137,3 +137,12 @@
   --app-surface: #FAFAFA;
   --app-skeleton: #EEEEEE;
 }
+
+[data-slot="slider-thumb"] {
+  width: 18px;
+  height: 18px;
+}
+
+[data-slot="slider-track"] {
+  height: 6px;
+}
