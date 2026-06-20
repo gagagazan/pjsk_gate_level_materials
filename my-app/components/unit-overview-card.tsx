@@ -10,7 +10,7 @@ export function UnitOverviewCard({ unit }: { unit: UnitConfig }) {
   const progress = state.units[unit.id]
 
   return (
-    <Card className="border-[#E0E0E0] bg-[#FAFAFA]">
+    <Card className="border-[#E0E0E0] bg-[#FAFAFA]" id={`overview-${unit.id}`}>
       <CardHeader className="pb-2">
         <CardTitle className="text-base" style={{ color: unit.color }}>
           {unit.name}
