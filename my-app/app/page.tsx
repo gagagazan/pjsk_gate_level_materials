@@ -1,19 +1,25 @@
-import { Button } from "@/components/ui/button"
+import { AppBar } from '@/components/app-bar'
+import { UnitOverviewGrid } from '@/components/unit-overview-grid'
+import { InventoryPanel } from '@/components/inventory-panel'
+import { MaterialDashboard } from '@/components/material-dashboard'
+import { UnitDetailPanel } from '@/components/unit-detail-panel'
+import { UNITS } from '@/lib/recipes'
 
-export default function Page() {
+export default function Home() {
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
+    <div className="min-h-screen bg-white">
+      <AppBar />
+      <main className="max-w-5xl mx-auto px-4 py-6 space-y-6">
+        <UnitOverviewGrid />
+        <InventoryPanel />
+        <MaterialDashboard />
+        <section className="space-y-4">
+          <h2 className="text-lg font-bold text-[#212121]">各团详情</h2>
+          {UNITS.map(unit => (
+            <UnitDetailPanel key={unit.id} unitId={unit.id} />
+          ))}
+        </section>
+      </main>
     </div>
   )
 }
