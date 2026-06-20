@@ -1,3 +1,4 @@
+import { AppStateProvider } from "@/lib/state"
 import { Geist, Geist_Mono } from "next/font/google"
 
 import "./globals.css"
@@ -23,7 +24,9 @@ export default function RootLayout({
       className={cn("antialiased", fontMono.variable, "font-sans", geist.variable)}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <AppStateProvider>
+          <ThemeProvider>{children}</ThemeProvider>
+        </AppStateProvider>
       </body>
     </html>
   )
