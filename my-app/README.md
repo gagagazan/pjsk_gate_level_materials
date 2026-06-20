@@ -1,21 +1,41 @@
-# Next.js template
+# PJSK 大门升级材料管理器
 
-This is a Next.js template with shadcn/ui.
+纯前端 Next.js 应用，用于管理《Project Sekai》五团大门升级材料。
 
-## Adding components
-
-To add components to your app, run the following command:
+## 开发
 
 ```bash
-npx shadcn@latest add button
+npm install
+npm run dev
 ```
 
-This will place the ui components in the `components` directory.
+访问 `http://localhost:3000`。
 
-## Using components
+## 测试
 
-To use the components in your app, import them as follows:
-
-```tsx
-import { Button } from "@/components/ui/button";
+```bash
+npm test
+npx playwright test
 ```
+
+## 构建
+
+```bash
+npm run build
+```
+
+产物输出到 `dist/`，可直接部署到 Cloudflare Pages。
+
+## 数据说明
+
+- 等级范围 1–40
+- 第 N 行材料 = 从 (N-1) 级升级到 N 级所需
+- 数据保存于浏览器 localStorage，支持导出/导入 JSON
+
+## 五团
+
+- Leo/need
+- MORE MORE JUMP!
+- Vivid BAD SQUAD
+- Wonderlands×Showtime
+- 25点，Nightcord见。
