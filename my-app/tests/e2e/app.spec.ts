@@ -36,10 +36,27 @@ test('inventory input updates dashboard', async ({ page }) => {
 
 test('export and import round-trip', async ({ page }) => {
   await page.getByLabel('心愿木材').fill('42')
+
   const [download] = await Promise.all([
     page.waitForEvent('download'),
     page.getByRole('button', { name: '导出' }).click(),
   ])
   const path = await download.path()
   expect(path).toBeTruthy()
+
+  const fs = await import('fs')
+  const exported = fs.readFileSync(path!, 'utf-8')
+  const parsed = JSON.parse(exported)
+  expect(parsed.inventory['wish-wood']).toBe(42)
+
+  // Reset state
+  await page.evaluate(() => localStorage.clear())
+  await page.reload()
+  await expect(page.getByLabel('心愿木材')).toHaveValue('0')
+
+  // Import the exported file
+  await page.getByRole('button', { name: '导入' }).click()
+  await page.locator('input[type="file"]').setInputFiles(path!)
+
+  await expect(page.getByLabel('心愿木材')).toHaveValue('42')
 })

@@ -10,8 +10,13 @@ import { getMaterialName } from '@/lib/materials'
 import { Separator } from '@/components/ui/separator'
 
 export function UnitDetailPanel({ unitId }: { unitId: string }) {
-  const unit = UNITS.find(u => u.id === unitId)!
+  const unit = UNITS.find(u => u.id === unitId)
   const { state, dispatch } = useAppState()
+
+  if (!unit) {
+    return null
+  }
+
   const progress = state.units[unit.id]
   const { totalRequired, byLevel } = calculateUnitRequirements(unit, progress.current, progress.target)
 
