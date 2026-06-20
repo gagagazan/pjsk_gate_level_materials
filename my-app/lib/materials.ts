@@ -33,6 +33,8 @@ export const MATERIAL_MAP: Record<string, MaterialMeta> = {
   'plastic': { key: 'plastic', name: '塑料', category: 'processed' },
 }
 
+export const MATERIALS: MaterialMeta[] = Object.values(MATERIAL_MAP)
+
 export function getMaterialName(key: string): string {
   return MATERIAL_MAP[key]?.name ?? key
 }
