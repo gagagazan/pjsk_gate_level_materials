@@ -33,16 +33,12 @@ function ocMemory(countPerMember: number, names: string[]): MaterialItem[] {
 }
 
 function vsMemory(countPerMember: number, names: string[]): MaterialItem[] {
-  return names.map(name => {
-    const key = name === '初音未来' ? 'blue-green-memory' : `vs-memory-${name}`
-    const displayName = name === '初音未来' ? '蓝绿色记忆' : `${name}的记忆`
-    return {
-      key,
-      name: displayName,
-      count: countPerMember,
-      category: 'memory' as MaterialCategory,
-    }
-  })
+  return names.map(name => ({
+    key: `vs-memory-${name}`,
+    name: `${name}的记忆`,
+    count: countPerMember,
+    category: 'memory' as MaterialCategory,
+  }))
 }
 
 function mat(key: string, name: string, count: number, category: MaterialCategory = 'basic'): MaterialItem {
@@ -260,41 +256,41 @@ const point25: UnitConfig = {
     { level: 2, materials: [mat('wish-wood', '心愿木材', 5, 'basic'), mat('wish-pebble', '心愿小石子', 5, 'basic'), mat('clay', '黏土', 1, 'basic'), mat('petal', '花瓣', 1, 'basic'), mat('screw', '螺丝', 1, 'processed')] },
     { level: 3, materials: [...ocMemory(2, UNIT_MEMBERS['25'].ocMembers), mat('wish-pebble', '心愿小石子', 25, 'basic')] },
     { level: 4, materials: [mat('wish-wood', '心愿木材', 20, 'basic'), mat('heavy-wood', '沉重木材', 10, 'basic'), mat('light-wood', '轻木材', 10, 'basic'), mat('soft-flax', '柔顺亚麻', 10, 'basic'), mat('fluffy-cotton', '蓬松棉花', 10, 'basic')] },
-    { level: 5, materials: [mat('blue-green-memory', '蓝绿色记忆', 2, 'memory'), mat('copper', '铜', 7, 'metal'), mat('iron', '铁', 7, 'metal'), mat('clay', '黏土', 7, 'basic'), mat('wish-pebble', '心愿小石子', 50, 'basic')] },
+    { level: 5, materials: [mat('vs-memory-初音未来', '初音未来的记忆', 2, 'memory'), mat('copper', '铜', 7, 'metal'), mat('iron', '铁', 7, 'metal'), mat('clay', '黏土', 7, 'basic'), mat('wish-pebble', '心愿小石子', 50, 'basic')] },
     { level: 6, materials: [mat('wish-wood', '心愿木材', 25, 'basic'), mat('wish-pebble', '心愿小石子', 50, 'basic'), mat('sticky-sap', '黏黏的树液', 7, 'basic'), mat('pure-glass', '纯净玻璃', 7, 'processed'), mat('shiny-quartz', '闪耀石英', 7, 'processed')] },
     { level: 7, materials: [...ocMemory(2, UNIT_MEMBERS['25'].ocMembers), mat('wish-wood', '心愿木材', 50, 'basic')] },
     { level: 8, materials: [mat('nail', '钉子', 10, 'processed'), mat('motor', '马达', 10, 'processed'), mat('battery', '电池', 10, 'processed'), mat('bulb', '灯泡', 10, 'processed'), mat('circuit-board', '电路板', 10, 'processed')] },
-    { level: 9, materials: [mat('blue-green-memory', '蓝绿色记忆', 3, 'memory'), mat('heavy-wood', '沉重木材', 25, 'basic'), mat('light-wood', '轻木材', 25, 'basic'), mat('sticky-sap', '黏黏的树液', 25, 'basic'), mat('wish-wood', '心愿木材', 50, 'basic')] },
+    { level: 9, materials: [mat('vs-memory-初音未来', '初音未来的记忆', 3, 'memory'), mat('heavy-wood', '沉重木材', 25, 'basic'), mat('light-wood', '轻木材', 25, 'basic'), mat('sticky-sap', '黏黏的树液', 25, 'basic'), mat('wish-wood', '心愿木材', 50, 'basic')] },
     { level: 10, materials: [mat('shiny-quartz', '闪耀石英', 25, 'processed'), mat('new-tone', '崭新的音色', 3, 'special'), mat('diamond', '钻石', 3, 'special'), mat('clover', '四叶幸运草', 3, 'special'), mat('evening-paulownia', '夕桐', 3, 'special')] },
     { level: 11, materials: [...ocMemory(5, UNIT_MEMBERS['25'].ocMembers), mat('petal', '花瓣', 25, 'basic')] },
     { level: 12, materials: [mat('wish-pebble', '心愿小石子', 100, 'basic'), mat('clay', '黏土', 25, 'basic'), mat('copper', '铜', 25, 'metal'), mat('iron', '铁', 25, 'metal'), mat('pure-glass', '纯净玻璃', 25, 'processed')] },
-    { level: 13, materials: [mat('blue-green-memory', '蓝绿色记忆', 5, 'memory'), mat('fluffy-cotton', '蓬松棉花', 25, 'basic'), mat('clover', '四叶幸运草', 3, 'special'), mat('soft-flax', '柔顺亚麻', 25, 'basic'), mat('petal', '花瓣', 25, 'basic')] },
+    { level: 13, materials: [mat('vs-memory-初音未来', '初音未来的记忆', 5, 'memory'), mat('fluffy-cotton', '蓬松棉花', 25, 'basic'), mat('clover', '四叶幸运草', 3, 'special'), mat('soft-flax', '柔顺亚麻', 25, 'basic'), mat('petal', '花瓣', 25, 'basic')] },
     { level: 14, materials: [mat('wish-wood', '心愿木材', 100, 'basic'), mat('heavy-wood', '沉重木材', 30, 'basic'), mat('light-wood', '轻木材', 30, 'basic'), mat('sticky-sap', '黏黏的树液', 30, 'basic'), mat('evening-paulownia', '夕桐', 3, 'special')] },
     { level: 15, materials: [...ocMemory(7, UNIT_MEMBERS['25'].ocMembers), mat('screw', '螺丝', 30, 'processed')] },
     { level: 16, materials: [mat('nail', '钉子', 30, 'processed'), mat('motor', '马达', 30, 'processed'), mat('battery', '电池', 30, 'processed'), mat('bulb', '灯泡', 30, 'processed'), mat('circuit-board', '电路板', 30, 'processed')] },
-    { level: 17, materials: [mat('blue-green-memory', '蓝绿色记忆', 7, 'memory'), mat('plastic', '塑料', 30, 'processed'), mat('new-tone', '崭新的音色', 3, 'special'), mat('screw', '螺丝', 30, 'processed'), mat('nail', '钉子', 30, 'processed')] },
+    { level: 17, materials: [mat('vs-memory-初音未来', '初音未来的记忆', 7, 'memory'), mat('plastic', '塑料', 30, 'processed'), mat('new-tone', '崭新的音色', 3, 'special'), mat('screw', '螺丝', 30, 'processed'), mat('nail', '钉子', 30, 'processed')] },
     { level: 18, materials: [mat('wish-pebble', '心愿小石子', 150, 'basic'), mat('clay', '黏土', 30, 'basic'), mat('copper', '铜', 30, 'metal'), mat('iron', '铁', 30, 'metal'), mat('pure-glass', '纯净玻璃', 30, 'processed')] },
     { level: 19, materials: [...ocMemory(10, UNIT_MEMBERS['25'].ocMembers), mat('sticky-sap', '黏黏的树液', 40, 'basic')] },
     { level: 20, materials: [mat('shiny-quartz', '闪耀石英', 50, 'processed'), mat('new-tone', '崭新的音色', 8, 'special'), mat('diamond', '钻石', 8, 'special'), mat('clover', '四叶幸运草', 8, 'special'), mat('evening-paulownia', '夕桐', 8, 'special')] },
-    { level: 21, materials: [mat('blue-green-memory', '蓝绿色记忆', 10, 'memory'), mat('heavy-wood', '沉重木材', 40, 'basic'), mat('evening-paulownia', '夕桐', 4, 'special'), mat('sticky-sap', '黏黏的树液', 40, 'basic'), mat('light-wood', '轻木材', 40, 'basic')] },
+    { level: 21, materials: [mat('vs-memory-初音未来', '初音未来的记忆', 10, 'memory'), mat('heavy-wood', '沉重木材', 40, 'basic'), mat('evening-paulownia', '夕桐', 4, 'special'), mat('sticky-sap', '黏黏的树液', 40, 'basic'), mat('light-wood', '轻木材', 40, 'basic')] },
     { level: 22, materials: [mat('screw', '螺丝', 40, 'processed'), mat('motor', '马达', 40, 'processed'), mat('battery', '电池', 40, 'processed'), mat('bulb', '灯泡', 40, 'processed'), mat('circuit-board', '电路板', 40, 'processed')] },
     { level: 23, materials: [...ocMemory(13, UNIT_MEMBERS['25'].ocMembers), mat('nail', '钉子', 40, 'processed')] },
     { level: 24, materials: [mat('wish-pebble', '心愿小石子', 200, 'basic'), mat('clay', '黏土', 40, 'basic'), mat('copper', '铜', 40, 'metal'), mat('iron', '铁', 40, 'metal'), mat('pure-glass', '纯净玻璃', 40, 'processed')] },
-    { level: 25, materials: [mat('blue-green-memory', '蓝绿色记忆', 13, 'memory'), mat('plastic', '塑料', 40, 'processed'), mat('new-tone', '崭新的音色', 4, 'special'), mat('nail', '钉子', 40, 'processed'), mat('screw', '螺丝', 40, 'processed')] },
+    { level: 25, materials: [mat('vs-memory-初音未来', '初音未来的记忆', 13, 'memory'), mat('plastic', '塑料', 40, 'processed'), mat('new-tone', '崭新的音色', 4, 'special'), mat('nail', '钉子', 40, 'processed'), mat('screw', '螺丝', 40, 'processed')] },
     { level: 26, materials: [mat('petal', '花瓣', 50, 'basic'), mat('soft-flax', '柔顺亚麻', 50, 'basic'), mat('fluffy-cotton', '蓬松棉花', 50, 'basic'), mat('clay', '黏土', 50, 'basic'), mat('clover', '四叶幸运草', 5, 'special')] },
     { level: 27, materials: [...ocMemory(15, UNIT_MEMBERS['25'].ocMembers), mat('copper', '铜', 50, 'metal')] },
     { level: 28, materials: [mat('wish-wood', '心愿木材', 150, 'basic'), mat('heavy-wood', '沉重木材', 50, 'basic'), mat('light-wood', '轻木材', 50, 'basic'), mat('sticky-sap', '黏黏的树液', 50, 'basic'), mat('evening-paulownia', '夕桐', 5, 'special')] },
-    { level: 29, materials: [mat('blue-green-memory', '蓝绿色记忆', 15, 'memory'), mat('iron', '铁', 50, 'metal'), mat('pure-glass', '纯净玻璃', 50, 'processed'), mat('copper', '铜', 50, 'metal'), mat('shiny-quartz', '闪耀石英', 50, 'processed')] },
+    { level: 29, materials: [mat('vs-memory-初音未来', '初音未来的记忆', 15, 'memory'), mat('iron', '铁', 50, 'metal'), mat('pure-glass', '纯净玻璃', 50, 'processed'), mat('copper', '铜', 50, 'metal'), mat('shiny-quartz', '闪耀石英', 50, 'processed')] },
     { level: 30, materials: [mat('shiny-quartz', '闪耀石英', 75, 'processed'), mat('new-tone', '崭新的音色', 10, 'special'), mat('diamond', '钻石', 10, 'special'), mat('clover', '四叶幸运草', 10, 'special'), mat('evening-paulownia', '夕桐', 10, 'special')] },
     { level: 31, materials: [...ocMemory(18, UNIT_MEMBERS['25'].ocMembers), mat('petal', '花瓣', 50, 'basic')] },
     { level: 32, materials: [mat('wish-pebble', '心愿小石子', 250, 'basic'), mat('clay', '黏土', 50, 'basic'), mat('copper', '铜', 50, 'metal'), mat('iron', '铁', 50, 'metal'), mat('pure-glass', '纯净玻璃', 50, 'processed')] },
-    { level: 33, materials: [mat('blue-green-memory', '蓝绿色记忆', 18, 'memory'), mat('soft-flax', '柔顺亚麻', 50, 'basic'), mat('clover', '四叶幸运草', 5, 'special'), mat('fluffy-cotton', '蓬松棉花', 50, 'basic'), mat('petal', '花瓣', 50, 'basic')] },
+    { level: 33, materials: [mat('vs-memory-初音未来', '初音未来的记忆', 18, 'memory'), mat('soft-flax', '柔顺亚麻', 50, 'basic'), mat('clover', '四叶幸运草', 5, 'special'), mat('fluffy-cotton', '蓬松棉花', 50, 'basic'), mat('petal', '花瓣', 50, 'basic')] },
     { level: 34, materials: [mat('plastic', '塑料', 50, 'processed'), mat('motor', '马达', 50, 'processed'), mat('battery', '电池', 50, 'processed'), mat('bulb', '灯泡', 50, 'processed'), mat('circuit-board', '电路板', 50, 'processed')] },
     { level: 35, materials: [...ocMemory(19, UNIT_MEMBERS['25'].ocMembers), mat('light-wood', '轻木材', 50, 'basic')] },
-    { level: 36, materials: [mat('blue-green-memory', '蓝绿色记忆', 19, 'memory'), mat('light-wood', '轻木材', 50, 'basic'), mat('evening-paulownia', '夕桐', 5, 'special'), mat('heavy-wood', '沉重木材', 50, 'basic'), mat('sticky-sap', '黏黏的树液', 50, 'basic')] },
+    { level: 36, materials: [mat('vs-memory-初音未来', '初音未来的记忆', 19, 'memory'), mat('light-wood', '轻木材', 50, 'basic'), mat('evening-paulownia', '夕桐', 5, 'special'), mat('heavy-wood', '沉重木材', 50, 'basic'), mat('sticky-sap', '黏黏的树液', 50, 'basic')] },
     { level: 37, materials: [mat('petal', '花瓣', 50, 'basic'), mat('soft-flax', '柔顺亚麻', 50, 'basic'), mat('fluffy-cotton', '蓬松棉花', 50, 'basic'), mat('clay', '黏土', 50, 'basic'), mat('new-tone', '崭新的音色', 5, 'special')] },
     { level: 38, materials: [...ocMemory(20, UNIT_MEMBERS['25'].ocMembers), mat('iron', '铁', 50, 'metal')] },
-    { level: 39, materials: [mat('blue-green-memory', '蓝绿色记忆', 20, 'memory'), mat('copper', '铜', 50, 'metal'), mat('pure-glass', '纯净玻璃', 50, 'processed'), mat('iron', '铁', 50, 'metal'), mat('shiny-quartz', '闪耀石英', 50, 'processed')] },
+    { level: 39, materials: [mat('vs-memory-初音未来', '初音未来的记忆', 20, 'memory'), mat('copper', '铜', 50, 'metal'), mat('pure-glass', '纯净玻璃', 50, 'processed'), mat('iron', '铁', 50, 'metal'), mat('shiny-quartz', '闪耀石英', 50, 'processed')] },
     { level: 40, materials: [mat('shiny-quartz', '闪耀石英', 100, 'processed'), mat('new-tone', '崭新的音色', 15, 'special'), mat('diamond', '钻石', 15, 'special'), mat('clover', '四叶幸运草', 15, 'special'), mat('evening-paulownia', '夕桐', 15, 'special')] }
   ],
 }

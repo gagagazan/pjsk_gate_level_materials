@@ -20,7 +20,7 @@ describe('calculateUnitRequirements', () => {
     const ln = UNITS.find(u => u.id === 'ln')!
     const result = calculateUnitRequirements(ln, 4, 5)
     expect(result.totalRequired.get('vs-memory-巡音流歌')).toBe(2)
-    expect(result.totalRequired.get('blue-green-memory')).toBe(2)
+    expect(result.totalRequired.get('vs-memory-初音未来')).toBe(2)
     expect(result.totalRequired.get('copper')).toBe(7)
   })
 
@@ -37,15 +37,15 @@ describe('calculateUnitRequirements', () => {
   it('expands 3 vs members for vbs', () => {
     const vbs = UNITS.find(u => u.id === 'vbs')!
     const result = calculateUnitRequirements(vbs, 4, 5)
-    expect(result.totalRequired.get('blue-green-memory')).toBe(2)
+    expect(result.totalRequired.get('vs-memory-初音未来')).toBe(2)
     expect(result.totalRequired.get('vs-memory-镜音连')).toBe(2)
     expect(result.totalRequired.get('vs-memory-MEIKO')).toBe(2)
   })
 
-  it('uses blue-green memory for 25 unit', () => {
+  it('uses vs memory for 25 unit', () => {
     const p25 = UNITS.find(u => u.id === '25')!
     const result = calculateUnitRequirements(p25, 4, 5)
-    expect(result.totalRequired.get('blue-green-memory')).toBe(2)
+    expect(result.totalRequired.get('vs-memory-初音未来')).toBe(2)
     expect(result.totalRequired.get('copper')).toBe(7)
     expect(result.totalRequired.get('wish-pebble')).toBe(50)
   })
