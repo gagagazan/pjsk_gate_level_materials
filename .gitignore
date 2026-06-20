@@ -11,6 +11,8 @@
 # testing
 /coverage
 /test-results
+/playwright-report
+/blob-report
 
 # next.js
 /.next/
@@ -25,6 +27,7 @@
 .vscode/
 .codex-tmp
 .claude/
+.pi/
 *.pem
 
 # debug
@@ -35,9 +38,7 @@ pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+.env*.local
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
-/dist
-/test-results
