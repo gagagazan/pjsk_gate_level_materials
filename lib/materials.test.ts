@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { MATERIALS, getMaterialName, MEMORY_MATERIALS, MATERIAL_SECTIONS, getMaterialSection, getMaterialSortIndex, getMemoryMaterialIcon } from './materials'
+import { MATERIALS, getMaterialName, MEMORY_MATERIALS, MATERIAL_SECTIONS, getMaterialSection, getMaterialSortIndex, getMemoryMaterialIcon, compareMaterialOrder, compareMaterialShortage } from './materials'
 
 const BASE_MATERIAL_NAMES = [
   '心愿木材',
@@ -112,6 +112,23 @@ describe('MATERIALS order and names', () => {
     expect(getMemoryMaterialIcon('MEIKO')).toBe('/icons/memory/item_memoria_25.png')
     expect(getMemoryMaterialIcon('KAITO')).toBe('/icons/memory/item_memoria_26.png')
     expect(getMemoryMaterialIcon('不存在的角色')).toBeUndefined()
+  })
+
+  it('sorts by shared material order comparator', () => {
+    const keys = ['memory-镜音连', 'memory-初音未来', 'wish-wood', 'screw']
+    keys.sort(compareMaterialOrder)
+    expect(keys).toEqual(['wish-wood', 'screw', 'memory-初音未来', 'memory-镜音连'])
+  })
+
+  it('sorts shortages missing first, then inventory order', () => {
+    const entries = [
+      { key: 'wish-wood', have: 100, need: 10 },
+      { key: 'screw', have: 0, need: 5 },
+      { key: 'memory-初音未来', have: 1, need: 1 },
+      { key: 'heavy-wood', have: 0, need: 20 },
+    ]
+    entries.sort(compareMaterialShortage)
+    expect(entries.map(e => e.key)).toEqual(['heavy-wood', 'screw', 'wish-wood', 'memory-初音未来'])
   })
 
   it('returns new translated names for legacy keys', () => {
