@@ -56,7 +56,7 @@ export function UnitDetailPanel({ unitId }: { unitId: string }) {
               return (
                 <div key={key} className="flex items-center justify-between py-2 text-sm gap-3">
                   <div className="flex items-center gap-3 min-w-0">
-                    <MaterialIconSlot />
+                    <MaterialIconSlot materialKey={key} />
                     <span className="text-[#212121] truncate">{getMaterialName(key)}</span>
                   </div>
                   <div className="flex items-center gap-3 shrink-0">

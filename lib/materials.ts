@@ -4,6 +4,7 @@ export interface MaterialMeta {
   key: string
   name: string
   category: MaterialCategory
+  icon?: string
 }
 
 // 基础材料：严格按游戏内顺序排列
@@ -63,11 +64,12 @@ const UNIT_ORDER = ['ln', 'mmj', 'vbs', 'ws', '25'] as const
 // VS 角色官方默认顺序：放在记忆材料列表末尾。
 const VS_ORDER = ['初音未来', '镜音铃', '镜音连', '巡音流歌', 'MEIKO', 'KAITO'] as const
 
-function memoryMeta(name: string): MaterialMeta {
+function memoryMeta(name: string, icon: string): MaterialMeta {
   return {
     key: `memory-${name}`,
     name: `${name}的记忆`,
     category: 'memory',
+    icon,
   }
 }
 
@@ -84,17 +86,20 @@ export const MEMORY_MATERIALS: MaterialMeta[] = (() => {
     for (const name of oc) {
       if (seenOc.has(name)) continue
       seenOc.add(name)
-      ocList.push(memoryMeta(name))
+      ocList.push(memoryMeta(name, `/icons/memory/item_memoria_${ocList.length + 1}.png`))
     }
     for (const name of vs) {
       if (seenVs.has(name)) continue
       seenVs.add(name)
-      vsList.push(memoryMeta(name))
+      vsList.push(memoryMeta(name, `/icons/memory/item_memoria_${ocList.length + vsList.length + 1}.png`))
     }
   }
 
   const orderedVs = VS_ORDER.filter(name => vsList.some(m => m.name === `${name}的记忆`))
-    .map(name => memoryMeta(name))
+    .map(name => {
+      const index = vsList.findIndex(m => m.name === `${name}的记忆`)
+      return memoryMeta(name, `/icons/memory/item_memoria_${ocList.length + index + 1}.png`)
+    })
 
   return [...ocList, ...orderedVs]
 })()
@@ -126,6 +131,11 @@ export function getMaterialSection(key: string): 'memory' | 'basic' | undefined 
   if (MEMORY_MATERIALS.some(m => m.key === key)) return 'memory'
   if (BASE_MATERIALS.some(m => m.key === key)) return 'basic'
   return undefined
+}
+
+export function getMemoryMaterialIcon(name: string): string | undefined {
+  const meta = MEMORY_MATERIALS.find(m => m.name === `${name}的记忆`)
+  return meta?.icon
 }
 
 export function getMaterialSortIndex(key: string): number {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { MATERIALS, getMaterialName, MEMORY_MATERIALS, MATERIAL_SECTIONS, getMaterialSection, getMaterialSortIndex } from './materials'
+import { MATERIALS, getMaterialName, MEMORY_MATERIALS, MATERIAL_SECTIONS, getMaterialSection, getMaterialSortIndex, getMemoryMaterialIcon } from './materials'
 
 const BASE_MATERIAL_NAMES = [
   '心愿木材',
@@ -98,6 +98,20 @@ describe('MATERIALS order and names', () => {
     expect(basicFirst).toBeLessThan(memoryFirst)
     expect(memoryLast).toBeLessThan(memoryFirst)
     expect(getMaterialSortIndex('unknown-key')).toBe(Number.MAX_SAFE_INTEGER)
+  })
+
+  it('assigns memory icons in order matching the source PNG index', () => {
+    expect(MEMORY_MATERIALS[0].icon).toBe('/icons/memory/item_memoria_1.png')
+    expect(MEMORY_MATERIALS[3].icon).toBe('/icons/memory/item_memoria_4.png')
+    expect(MEMORY_MATERIALS[20].icon).toBe('/icons/memory/item_memoria_21.png')
+    expect(MEMORY_MATERIALS[25].icon).toBe('/icons/memory/item_memoria_26.png')
+  })
+
+  it('looks up memory icon by character name', () => {
+    expect(getMemoryMaterialIcon('星乃一歌')).toBe('/icons/memory/item_memoria_1.png')
+    expect(getMemoryMaterialIcon('初音未来')).toBe('/icons/memory/item_memoria_21.png')
+    expect(getMemoryMaterialIcon('KAITO')).toBe('/icons/memory/item_memoria_26.png')
+    expect(getMemoryMaterialIcon('不存在的角色')).toBeUndefined()
   })
 
   it('returns new translated names for legacy keys', () => {

@@ -16,7 +16,7 @@ export function MaterialRow({ meta }: MaterialRowProps) {
   return (
     <div className="flex items-center justify-between py-2 border-b border-[#E0E0E0] last:border-0 gap-3">
       <div className="flex items-center gap-3 min-w-0">
-        <MaterialIconSlot />
+        <MaterialIconSlot materialKey={meta.key} />
         <label htmlFor={`inv-${meta.key}`} className="text-sm text-[#212121] truncate">
           {meta.name}
         </label>

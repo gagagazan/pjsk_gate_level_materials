@@ -39,7 +39,7 @@ function SummaryTable({ required }: { required: Map<string, number> }) {
       {rows.map(row => (
         <div key={row.key} className="flex items-center justify-between py-2 text-sm gap-3">
           <div className="flex items-center gap-3 min-w-0">
-            <MaterialIconSlot />
+            <MaterialIconSlot materialKey={row.key} />
             <span className="text-[#212121] truncate">{row.name}</span>
           </div>
           <div className="flex items-center gap-4 shrink-0">

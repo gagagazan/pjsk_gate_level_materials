@@ -23,7 +23,7 @@ export function LevelBreakdown({ byLevel }: LevelBreakdownProps) {
             <div className="text-[#212121] space-y-1">
               {materials.map((m, idx) => (
                 <div key={`${level}-${idx}`} className="flex items-center gap-2">
-                  <MaterialIconSlot className="w-5 h-5" />
+                  <MaterialIconSlot className="w-5 h-5" materialKey={m.key} />
                   <span>{getMaterialName(m.key)}×{m.count}</span>
                 </div>
               ))}
