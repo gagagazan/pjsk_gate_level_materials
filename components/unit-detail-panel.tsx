@@ -6,7 +6,7 @@ import { LevelBreakdown } from './level-breakdown'
 import { useAppState } from '@/lib/state'
 import { UNITS } from '@/lib/recipes'
 import { calculateUnitRequirements } from '@/lib/calculator'
-import { getMaterialName } from '@/lib/materials'
+import { compareMaterialShortage, getMaterialName } from '@/lib/materials'
 import { Separator } from '@/components/ui/separator'
 import { MaterialIconSlot } from './material-icon-slot'
 
@@ -50,10 +50,14 @@ export function UnitDetailPanel({ unitId }: { unitId: string }) {
           <p className="text-sm text-[#757575]">无需材料</p>
         ) : (
           <div className="divide-y divide-[#E0E0E0]">
-            {Array.from(totalRequired.entries()).map(([key, need]) => {
-              const have = state.inventory[key] ?? 0
-              const gap = Math.max(0, need - have)
-              return (
+            {Array.from(totalRequired.entries())
+              .map(([key, need]) => {
+                const have = state.inventory[key] ?? 0
+                const gap = Math.max(0, need - have)
+                return { key, need, have, gap }
+              })
+              .sort(compareMaterialShortage)
+              .map(({ key, need, have, gap }) => (
                 <div key={key} className="flex items-center justify-between py-2 text-sm gap-3">
                   <div className="flex items-center gap-3 min-w-0">
                     <MaterialIconSlot materialKey={key} />
@@ -64,8 +68,7 @@ export function UnitDetailPanel({ unitId }: { unitId: string }) {
                     {gap > 0 && <span className="text-xs font-bold text-[#E91E63]">缺 {gap}</span>}
                   </div>
                 </div>
-              )
-            })}
+              ))}
           </div>
         )}
         <LevelBreakdown byLevel={byLevel} />
