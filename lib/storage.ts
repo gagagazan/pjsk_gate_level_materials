@@ -50,7 +50,19 @@ function migrateState(parsed: unknown): UserState {
     state.units[id].target = clamp(state.units[id].target, 1, 40)
   }
   state.inventory = state.inventory ?? {}
+  state.inventory = migrateMemoryKeys(state.inventory)
   return state
+}
+
+// 旧存档使用 oc-memory-${name} / vs-memory-${name}，新 key 统一为 memory-${name}
+function migrateMemoryKeys(inventory: Record<string, number>): Record<string, number> {
+  const result: Record<string, number> = {}
+  for (const [key, count] of Object.entries(inventory)) {
+    if (typeof count !== 'number' || !Number.isFinite(count)) continue
+    const normalized = key.replace(/^(oc-memory|vs-memory)-/, 'memory-')
+    result[normalized] = (result[normalized] ?? 0) + count
+  }
+  return result
 }
 
 function clamp(n: number, min: number, max: number): number {

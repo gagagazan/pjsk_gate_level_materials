@@ -6,7 +6,7 @@ export function InventoryPanel() {
   return (
     <Card className="border-[#E0E0E0]">
       <CardHeader>
-        <CardTitle className="text-base text-[#212121]">材料库存</CardTitle>
+        <CardTitle data-testid="inventory-heading" className="text-base text-[#212121]">材料库存</CardTitle>
       </CardHeader>
       <CardContent className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6">
         {MATERIALS.map(meta => (

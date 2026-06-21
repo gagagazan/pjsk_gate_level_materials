@@ -8,6 +8,7 @@ import { UNITS } from '@/lib/recipes'
 import { calculateUnitRequirements } from '@/lib/calculator'
 import { getMaterialName } from '@/lib/materials'
 import { Separator } from '@/components/ui/separator'
+import { MaterialIconSlot } from './material-icon-slot'
 
 export function UnitDetailPanel({ unitId }: { unitId: string }) {
   const unit = UNITS.find(u => u.id === unitId)
@@ -21,7 +22,7 @@ export function UnitDetailPanel({ unitId }: { unitId: string }) {
   const { totalRequired, byLevel } = calculateUnitRequirements(unit, progress.current, progress.target)
 
   return (
-    <Card className="border-[#E0E0E0]" id={`unit-${unit.id}`}>
+    <Card data-testid="unit-detail-panel" className="border-[#E0E0E0]" id={`unit-${unit.id}`}>
       <CardHeader>
         <CardTitle className="text-base" style={{ color: unit.color }}>
           {unit.name}
@@ -53,9 +54,12 @@ export function UnitDetailPanel({ unitId }: { unitId: string }) {
               const have = state.inventory[key] ?? 0
               const gap = Math.max(0, need - have)
               return (
-                <div key={key} className="flex items-center justify-between py-2 text-sm">
-                  <span className="text-[#212121]">{getMaterialName(key)}</span>
-                  <div className="flex items-center gap-3">
+                <div key={key} className="flex items-center justify-between py-2 text-sm gap-3">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <MaterialIconSlot />
+                    <span className="text-[#212121] truncate">{getMaterialName(key)}</span>
+                  </div>
+                  <div className="flex items-center gap-3 shrink-0">
                     <span className="text-[#757575]">{have} / {need}</span>
                     {gap > 0 && <span className="text-xs font-bold text-[#E91E63]">缺 {gap}</span>}
                   </div>

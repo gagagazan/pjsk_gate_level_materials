@@ -6,6 +6,7 @@ import { useAppState } from '@/lib/state'
 import { UNITS } from '@/lib/recipes'
 import { getMaterialName } from '@/lib/materials'
 import { calculateUnitRequirements, calculateGlobalRequirements } from '@/lib/calculator'
+import { MaterialIconSlot } from './material-icon-slot'
 
 function GapBadge({ have, need }: { have: number; need: number }) {
   const gap = Math.max(0, need - have)
@@ -30,9 +31,12 @@ function SummaryTable({ required }: { required: Map<string, number> }) {
   return (
     <div className="divide-y divide-[#E0E0E0]">
       {rows.map(row => (
-        <div key={row.key} className="flex items-center justify-between py-2 text-sm">
-          <span className="text-[#212121]">{row.name}</span>
-          <div className="flex items-center gap-4">
+        <div key={row.key} className="flex items-center justify-between py-2 text-sm gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <MaterialIconSlot />
+            <span className="text-[#212121] truncate">{row.name}</span>
+          </div>
+          <div className="flex items-center gap-4 shrink-0">
             <span className="text-[#757575]">{row.have} / {row.need}</span>
             <GapBadge have={row.have} need={row.need} />
           </div>
@@ -49,11 +53,11 @@ export function MaterialDashboard() {
   return (
     <Card className="border-[#E0E0E0]">
       <CardHeader>
-        <CardTitle className="text-base text-[#212121]">材料缺口汇总</CardTitle>
+        <CardTitle data-testid="gaps-heading" className="text-base text-[#212121]">材料缺口汇总</CardTitle>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="global">
-          <TabsList className="mb-4">
+          <TabsList className="mb-4 flex flex-wrap h-auto gap-1">
             <TabsTrigger value="global">全局</TabsTrigger>
             {UNITS.map(unit => (
               <TabsTrigger key={unit.id} value={unit.id}>{unit.name}</TabsTrigger>

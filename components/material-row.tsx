@@ -3,6 +3,7 @@
 import { Input } from '@/components/ui/input'
 import { useAppState } from '@/lib/state'
 import { MaterialMeta } from '@/lib/materials'
+import { MaterialIconSlot } from './material-icon-slot'
 
 interface MaterialRowProps {
   meta: MaterialMeta
@@ -13,8 +14,13 @@ export function MaterialRow({ meta }: MaterialRowProps) {
   const value = state.inventory[meta.key] ?? 0
 
   return (
-    <div className="flex items-center justify-between py-2 border-b border-[#E0E0E0] last:border-0">
-      <label htmlFor={`inv-${meta.key}`} className="text-sm text-[#212121]">{meta.name}</label>
+    <div className="flex items-center justify-between py-2 border-b border-[#E0E0E0] last:border-0 gap-3">
+      <div className="flex items-center gap-3 min-w-0">
+        <MaterialIconSlot />
+        <label htmlFor={`inv-${meta.key}`} className="text-sm text-[#212121] truncate">
+          {meta.name}
+        </label>
+      </div>
       <Input
         id={`inv-${meta.key}`}
         type="number"
@@ -24,7 +30,7 @@ export function MaterialRow({ meta }: MaterialRowProps) {
           const n = parseInt(e.target.value, 10)
           dispatch({ type: 'SET_INVENTORY', key: meta.key, value: Number.isFinite(n) && n >= 0 ? n : 0 })
         }}
-        className="w-24 text-right"
+        className="w-24 text-right shrink-0"
       />
     </div>
   )
