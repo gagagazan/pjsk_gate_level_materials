@@ -7,32 +7,36 @@ export interface MaterialMeta {
   icon?: string
 }
 
+function baseMeta(key: string, name: string, category: MaterialCategory): MaterialMeta {
+  return { key, name, category, icon: `/icons/base/${key}.png` }
+}
+
 // 基础材料：严格按游戏内顺序排列
 export const BASE_MATERIALS: MaterialMeta[] = [
-  { key: 'wish-wood', name: '心愿木材', category: 'basic' },
-  { key: 'heavy-wood', name: '硬质木材', category: 'basic' },
-  { key: 'light-wood', name: '轻质木材', category: 'basic' },
-  { key: 'sticky-sap', name: '粘稠的树液', category: 'basic' },
-  { key: 'evening-paulownia', name: '夕桐', category: 'special' },
-  { key: 'wish-pebble', name: '心愿石块', category: 'basic' },
-  { key: 'copper', name: '铜', category: 'metal' },
-  { key: 'iron', name: '铁', category: 'metal' },
-  { key: 'clay', name: '粘土', category: 'basic' },
-  { key: 'pure-glass', name: '漂亮的玻璃', category: 'processed' },
-  { key: 'shiny-quartz', name: '闪耀石英', category: 'processed' },
-  { key: 'diamond', name: '钻石', category: 'special' },
-  { key: 'screw', name: '螺丝', category: 'processed' },
-  { key: 'nail', name: '钉子', category: 'processed' },
-  { key: 'plastic', name: '塑料', category: 'processed' },
-  { key: 'motor', name: '马达', category: 'processed' },
-  { key: 'battery', name: '电池', category: 'processed' },
-  { key: 'bulb', name: '灯泡', category: 'processed' },
-  { key: 'circuit-board', name: '电路板', category: 'processed' },
-  { key: 'clover', name: '四叶草', category: 'special' },
-  { key: 'soft-flax', name: '顺滑的亚麻', category: 'basic' },
-  { key: 'fluffy-cotton', name: '蓬松的棉花', category: 'basic' },
-  { key: 'petal', name: '花瓣', category: 'basic' },
-  { key: 'new-tone', name: '空白的音色', category: 'special' },
+  baseMeta('wish-wood', '心愿木材', 'basic'),
+  baseMeta('heavy-wood', '硬质木材', 'basic'),
+  baseMeta('light-wood', '轻质木材', 'basic'),
+  baseMeta('sticky-sap', '粘稠的树液', 'basic'),
+  baseMeta('evening-paulownia', '夕桐', 'special'),
+  baseMeta('wish-pebble', '心愿石块', 'basic'),
+  baseMeta('copper', '铜', 'metal'),
+  baseMeta('iron', '铁', 'metal'),
+  baseMeta('clay', '粘土', 'basic'),
+  baseMeta('pure-glass', '漂亮的玻璃', 'processed'),
+  baseMeta('shiny-quartz', '闪耀石英', 'processed'),
+  baseMeta('diamond', '钻石', 'special'),
+  baseMeta('screw', '螺丝', 'processed'),
+  baseMeta('nail', '钉子', 'processed'),
+  baseMeta('plastic', '塑料', 'processed'),
+  baseMeta('motor', '马达', 'processed'),
+  baseMeta('battery', '电池', 'processed'),
+  baseMeta('bulb', '灯泡', 'processed'),
+  baseMeta('circuit-board', '电路板', 'processed'),
+  baseMeta('clover', '四叶草', 'special'),
+  baseMeta('soft-flax', '顺滑的亚麻', 'basic'),
+  baseMeta('fluffy-cotton', '蓬松的棉花', 'basic'),
+  baseMeta('petal', '花瓣', 'basic'),
+  baseMeta('new-tone', '空白的音色', 'special'),
 ]
 
 // 各团角色名（用于生成记忆材料）
