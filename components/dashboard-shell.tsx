@@ -4,23 +4,15 @@ import { useState, ReactNode } from 'react'
 import { SectionRail, MobileSectionTabs, SectionId } from './section-rail'
 
 interface DashboardShellProps {
-  overview: ReactNode
   inventory: ReactNode
   gaps: ReactNode
-  units: ReactNode
 }
 
-export function DashboardShell({ overview, inventory, gaps, units }: DashboardShellProps) {
-  const [active, setActive] = useState<SectionId>('overview')
+export function DashboardShell({ inventory, gaps }: DashboardShellProps) {
+  const [active, setActive] = useState<SectionId>('gaps')
 
   const renderSection = () => {
     switch (active) {
-      case 'overview':
-        return (
-          <section data-testid="section-overview" className="space-y-6">
-            {overview}
-          </section>
-        )
       case 'inventory':
         return (
           <section data-testid="section-inventory" className="space-y-6">
@@ -31,12 +23,6 @@ export function DashboardShell({ overview, inventory, gaps, units }: DashboardSh
         return (
           <section data-testid="section-gaps" className="space-y-6">
             {gaps}
-          </section>
-        )
-      case 'units':
-        return (
-          <section data-testid="section-units" className="space-y-6">
-            {units}
           </section>
         )
     }

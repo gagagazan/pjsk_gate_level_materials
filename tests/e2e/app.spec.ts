@@ -6,13 +6,16 @@ test.beforeEach(async ({ page }) => {
   await page.reload()
 })
 
-test('page loads with title and unit cards', async ({ page }) => {
+test('page loads with title and default gaps section', async ({ page }) => {
   await expect(page).toHaveTitle(/PJSK/)
+  await expect(page.getByTestId('section-gaps')).toBeVisible()
+  await expect(page.getByTestId('gaps-heading')).toBeVisible()
+  // Global overview cards live inside the gaps section now
   await expect(page.locator('#overview-ln').getByText('Leo/need')).toBeVisible()
   await expect(page.locator('#overview-25').getByText('25点，Nightcord见。')).toBeVisible()
 })
 
-test('slider adjusts target level', async ({ page }) => {
+test('slider adjusts target level from global gap tab', async ({ page }) => {
   const card = page.locator('#overview-ln')
   await expect(card.getByText('Lv.1 → Lv.1')).toBeVisible()
   const sliders = card.locator('[role="slider"]')
@@ -33,7 +36,7 @@ test('inventory input updates dashboard', async ({ page }) => {
   await page.getByLabel('心愿木材').fill('3')
   await page.keyboard.press('Enter')
 
-  await page.getByRole('navigation').getByRole('button', { name: '缺口' }).click()
+  await page.getByRole('navigation').getByRole('button', { name: '材料缺口' }).click()
   await expect(page.getByText('3 /').first()).toBeVisible()
 })
 
@@ -67,25 +70,43 @@ test('export and import round-trip', async ({ page }) => {
 })
 
 test.describe('rail navigation', () => {
-  test('shows all rail items and defaults to overview', async ({ page }) => {
-    await expect(page.getByRole('navigation').getByRole('button', { name: '概览' })).toBeVisible()
+  test('shows only gaps and inventory, defaulting to gaps', async ({ page }) => {
+    await expect(page.getByRole('navigation').getByRole('button', { name: '材料缺口' })).toBeVisible()
     await expect(page.getByRole('navigation').getByRole('button', { name: '库存' })).toBeVisible()
-    await expect(page.getByRole('navigation').getByRole('button', { name: '缺口' })).toBeVisible()
-    await expect(page.getByRole('navigation').getByRole('button', { name: '各团' })).toBeVisible()
-    await expect(page.getByTestId('section-overview')).toBeVisible()
+    await expect(page.getByRole('navigation').getByRole('button', { name: '概览' })).toHaveCount(0)
+    await expect(page.getByRole('navigation').getByRole('button', { name: '各团' })).toHaveCount(0)
+    // Exactly two rail buttons remain
+    await expect(page.getByRole('navigation').getByRole('button')).toHaveCount(2)
+    await expect(page.getByTestId('section-gaps')).toBeVisible()
   })
 
-  test('switching to inventory hides overview and shows inventory panel', async ({ page }) => {
+  test('switching to inventory hides gaps and shows inventory panel', async ({ page }) => {
     await page.getByRole('navigation').getByRole('button', { name: '库存' }).click()
     await expect(page.getByTestId('section-inventory')).toBeVisible()
-    await expect(page.getByTestId('section-overview')).not.toBeVisible()
+    await expect(page.getByTestId('section-gaps')).not.toBeVisible()
     await expect(page.getByTestId('inventory-heading')).toBeVisible()
   })
 
-  test('switching to gaps shows material gap summary', async ({ page }) => {
-    await page.getByRole('navigation').getByRole('button', { name: '缺口' }).click()
+  test('switching back to gaps shows material gap summary', async ({ page }) => {
+    await page.getByRole('navigation').getByRole('button', { name: '库存' }).click()
+    await page.getByRole('navigation').getByRole('button', { name: '材料缺口' }).click()
     await expect(page.getByTestId('section-gaps')).toBeVisible()
     await expect(page.getByTestId('gaps-heading')).toBeVisible()
+  })
+})
+
+test.describe('inventory grouping', () => {
+  test('renders memory and basic sections', async ({ page }) => {
+    await page.getByRole('navigation').getByRole('button', { name: '库存' }).click()
+    await expect(page.getByText('记忆材料').first()).toBeVisible()
+    await expect(page.getByText('基础材料').first()).toBeVisible()
+  })
+
+  test('memory material list is continuous', async ({ page }) => {
+    await page.getByRole('navigation').getByRole('button', { name: '库存' }).click()
+    const section = page.getByTestId('section-inventory')
+    // Expect only one memory section header
+    await expect(section.locator('h3', { hasText: '记忆材料' })).toHaveCount(1)
   })
 })
 
@@ -104,24 +125,36 @@ test.describe('material icon slots', () => {
     await sliders.nth(1).click()
     await page.keyboard.press('ArrowRight')
 
-    await page.getByRole('navigation').getByRole('button', { name: '缺口' }).click()
+    await page.getByRole('navigation').getByRole('button', { name: '材料缺口' }).click()
     const slots = page.getByTestId('section-gaps').getByTestId('material-icon-slot')
     await expect(slots.first()).toBeVisible()
     expect(await slots.count()).toBeGreaterThan(0)
   })
 })
 
-test.describe('unit detail tabs', () => {
-  test('shows one unit at a time and switches unit title', async ({ page }) => {
-    await page.getByRole('navigation').getByRole('button', { name: '各团' }).click()
-    await expect(page.getByTestId('section-units')).toBeVisible()
-
-    // Default shows first unit
-    await expect(page.getByTestId('unit-detail-panel').getByText('Leo/need')).toBeVisible()
-
-    // Switch to another unit
-    await page.getByTestId('unit-detail-tabs').getByRole('tab', { name: 'MORE MORE JUMP!' }).click()
+test.describe('gap tabs', () => {
+  test('defaults to global tab and can switch units', async ({ page }) => {
+    await expect(page.getByRole('tab', { name: '全局' })).toBeVisible()
+    await page.getByRole('tab', { name: 'MORE MORE JUMP!' }).click()
     await expect(page.getByTestId('unit-detail-panel').getByText('MORE MORE JUMP!')).toBeVisible()
-    await expect(page.getByTestId('unit-detail-panel').getByText('Leo/need')).not.toBeVisible()
+  })
+
+  test('shortage rows sort by missing first then material order', async ({ page }) => {
+    // Leo/need target level 3 creates OC memory shortages and keeps basic gaps
+    const card = page.locator('#overview-ln')
+    const sliders = card.locator('[role="slider"]')
+    await sliders.nth(1).click()
+    await page.keyboard.press('ArrowRight')
+    await page.keyboard.press('ArrowRight')
+    await expect(card.getByText('Lv.1 → Lv.3')).toBeVisible()
+
+    // Give the first base material in shared order to make it "不缺"
+    await page.getByRole('navigation').getByRole('button', { name: '库存' }).click()
+    await page.getByLabel('星乃一歌的记忆').fill('99')
+
+    await page.getByRole('navigation').getByRole('button', { name: '材料缺口' }).click()
+    const rows = page.getByTestId('section-gaps').locator('.divide-y > div')
+    const firstRow = rows.first()
+    await expect(firstRow.getByText(/缺 /)).toBeVisible()
   })
 })

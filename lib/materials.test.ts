@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { MATERIALS, getMaterialName, MEMORY_MATERIALS } from './materials'
+import { MATERIALS, getMaterialName, MEMORY_MATERIALS, MATERIAL_SECTIONS, getMaterialSection, getMaterialSortIndex } from './materials'
 
 const BASE_MATERIAL_NAMES = [
   '心愿木材',
@@ -76,6 +76,27 @@ describe('MATERIALS order and names', () => {
 
   it('exports MEMORY_MATERIALS in the same order', () => {
     expect(MEMORY_MATERIALS.map(m => m.name)).toEqual(MEMORY_ORDER)
+  })
+
+  it('groups materials into memory and basic sections', () => {
+    expect(MATERIAL_SECTIONS.map(s => s.id)).toEqual(['memory', 'basic'])
+    expect(MATERIAL_SECTIONS[0].items.map(m => m.name)).toEqual(MEMORY_ORDER)
+    expect(MATERIAL_SECTIONS[1].items.map(m => m.name)).toEqual(BASE_MATERIAL_NAMES)
+  })
+
+  it('classifies material keys into sections', () => {
+    expect(getMaterialSection('memory-初音未来')).toBe('memory')
+    expect(getMaterialSection('wish-wood')).toBe('basic')
+    expect(getMaterialSection('unknown-key')).toBeUndefined()
+  })
+
+  it('sorts by shared material order with memory before basic', () => {
+    const memoryFirst = getMaterialSortIndex('memory-初音未来')
+    const basicFirst = getMaterialSortIndex('wish-wood')
+    const memoryLast = getMaterialSortIndex('memory-晓山瑞希')
+    expect(memoryFirst).toBeLessThan(basicFirst)
+    expect(memoryLast).toBeLessThan(basicFirst)
+    expect(getMaterialSortIndex('unknown-key')).toBe(Number.MAX_SAFE_INTEGER)
   })
 
   it('returns new translated names for legacy keys', () => {

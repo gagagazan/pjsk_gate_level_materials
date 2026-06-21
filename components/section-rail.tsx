@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
-export type SectionId = 'overview' | 'inventory' | 'gaps' | 'units'
+export type SectionId = 'gaps' | 'inventory'
 
 export interface SectionRailProps {
   active: SectionId
@@ -11,10 +11,8 @@ export interface SectionRailProps {
 }
 
 const ITEMS: { id: SectionId; label: string }[] = [
-  { id: 'overview', label: '概览' },
+  { id: 'gaps', label: '材料缺口' },
   { id: 'inventory', label: '库存' },
-  { id: 'gaps', label: '缺口' },
-  { id: 'units', label: '各团' },
 ]
 
 export function SectionRail({ active, onChange }: SectionRailProps) {

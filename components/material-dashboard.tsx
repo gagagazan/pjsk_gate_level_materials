@@ -4,9 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useAppState } from '@/lib/state'
 import { UNITS } from '@/lib/recipes'
-import { getMaterialName } from '@/lib/materials'
-import { calculateUnitRequirements, calculateGlobalRequirements } from '@/lib/calculator'
+import { getMaterialName, getMaterialSortIndex } from '@/lib/materials'
+import { calculateGlobalRequirements } from '@/lib/calculator'
 import { MaterialIconSlot } from './material-icon-slot'
+import { UnitOverviewCard } from './unit-overview-card'
+import { UnitDetailPanel } from './unit-detail-panel'
 
 function GapBadge({ have, need }: { have: number; need: number }) {
   const gap = Math.max(0, need - have)
@@ -24,7 +26,11 @@ function SummaryTable({ required }: { required: Map<string, number> }) {
       need,
       gap: Math.max(0, need - (state.inventory[key] ?? 0)),
     }))
-    .sort((a, b) => b.gap - a.gap)
+    .sort((a, b) => {
+      if (a.gap === 0 && b.gap > 0) return 1
+      if (a.gap > 0 && b.gap === 0) return -1
+      return getMaterialSortIndex(a.key) - getMaterialSortIndex(b.key)
+    })
 
   if (rows.length === 0) return <p className="text-sm text-[#757575]">无需材料</p>
 
@@ -46,6 +52,16 @@ function SummaryTable({ required }: { required: Map<string, number> }) {
   )
 }
 
+function GlobalProgressGrid() {
+  return (
+    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+      {UNITS.map(unit => (
+        <UnitOverviewCard key={unit.id} unit={unit} />
+      ))}
+    </section>
+  )
+}
+
 export function MaterialDashboard() {
   const { state } = useAppState()
   const global = calculateGlobalRequirements(UNITS, state.units)
@@ -64,20 +80,14 @@ export function MaterialDashboard() {
             ))}
           </TabsList>
           <TabsContent value="global">
+            <GlobalProgressGrid />
             <SummaryTable required={global} />
           </TabsContent>
-          {UNITS.map(unit => {
-            const { totalRequired } = calculateUnitRequirements(
-              unit,
-              state.units[unit.id].current,
-              state.units[unit.id].target
-            )
-            return (
-              <TabsContent key={unit.id} value={unit.id}>
-                <SummaryTable required={totalRequired} />
-              </TabsContent>
-            )
-          })}
+          {UNITS.map(unit => (
+            <TabsContent key={unit.id} value={unit.id}>
+              <UnitDetailPanel unitId={unit.id} />
+            </TabsContent>
+          ))}
         </Tabs>
       </CardContent>
     </Card>

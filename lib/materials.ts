@@ -90,10 +90,29 @@ export const MATERIAL_MAP: Record<string, MaterialMeta> = Object.fromEntries(
   MATERIALS.map(m => [m.key, m])
 )
 
+// 共享材料分组：库存页按此顺序展示，缺口排序也使用同一顺序（记忆材料在前，基础材料在后）
+export const MATERIAL_SECTIONS = [
+  { id: 'memory', label: '记忆材料', items: MEMORY_MATERIALS },
+  { id: 'basic', label: '基础材料', items: BASE_MATERIALS },
+] as const
+
+const SHARED_ORDER: MaterialMeta[] = [...MEMORY_MATERIALS, ...BASE_MATERIALS]
+const SORT_INDEX_MAP = new Map(SHARED_ORDER.map((m, i) => [m.key, i]))
+
 export function getMaterialName(key: string): string {
   return MATERIAL_MAP[key]?.name ?? key
 }
 
 export function getMaterialKeyByName(name: string): string | undefined {
   return MATERIALS.find(m => m.name === name)?.key
+}
+
+export function getMaterialSection(key: string): 'memory' | 'basic' | undefined {
+  if (MEMORY_MATERIALS.some(m => m.key === key)) return 'memory'
+  if (BASE_MATERIALS.some(m => m.key === key)) return 'basic'
+  return undefined
+}
+
+export function getMaterialSortIndex(key: string): number {
+  return SORT_INDEX_MAP.get(key) ?? Number.MAX_SAFE_INTEGER
 }
