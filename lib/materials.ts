@@ -78,30 +78,28 @@ function memoryMeta(name: string, icon: string): MaterialMeta {
 export const MEMORY_MATERIALS: MaterialMeta[] = (() => {
   const seenOc = new Set<string>()
   const seenVs = new Set<string>()
-  const ocList: MaterialMeta[] = []
-  const vsList: MaterialMeta[] = []
+  const ocList: string[] = []
+  const vsList: string[] = []
 
   for (const unitId of UNIT_ORDER) {
     const { oc, vs } = UNIT_MEMBER_NAMES[unitId]
     for (const name of oc) {
       if (seenOc.has(name)) continue
       seenOc.add(name)
-      ocList.push(memoryMeta(name, `/icons/memory/item_memoria_${ocList.length + 1}.png`))
+      ocList.push(name)
     }
     for (const name of vs) {
       if (seenVs.has(name)) continue
       seenVs.add(name)
-      vsList.push(memoryMeta(name, `/icons/memory/item_memoria_${ocList.length + vsList.length + 1}.png`))
+      vsList.push(name)
     }
   }
 
-  const orderedVs = VS_ORDER.filter(name => vsList.some(m => m.name === `${name}的记忆`))
-    .map(name => {
-      const index = vsList.findIndex(m => m.name === `${name}的记忆`)
-      return memoryMeta(name, `/icons/memory/item_memoria_${ocList.length + index + 1}.png`)
-    })
+  const orderedVs = VS_ORDER.filter(name => vsList.includes(name))
+  const names = [...ocList, ...orderedVs]
 
-  return [...ocList, ...orderedVs]
+  // Assign icons strictly from the final MEMORY_MATERIALS order.
+  return names.map((name, i) => memoryMeta(name, `/icons/memory/item_memoria_${i + 1}.png`))
 })()
 
 export const MATERIALS: MaterialMeta[] = [...BASE_MATERIALS, ...MEMORY_MATERIALS]

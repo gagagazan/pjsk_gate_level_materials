@@ -101,15 +101,15 @@ describe('MATERIALS order and names', () => {
   })
 
   it('assigns memory icons in order matching the source PNG index', () => {
-    expect(MEMORY_MATERIALS[0].icon).toBe('/icons/memory/item_memoria_1.png')
-    expect(MEMORY_MATERIALS[3].icon).toBe('/icons/memory/item_memoria_4.png')
-    expect(MEMORY_MATERIALS[20].icon).toBe('/icons/memory/item_memoria_21.png')
-    expect(MEMORY_MATERIALS[25].icon).toBe('/icons/memory/item_memoria_26.png')
+    const expectedIcons = MEMORY_ORDER.map((_, i) => `/icons/memory/item_memoria_${i + 1}.png`)
+    expect(MEMORY_MATERIALS.map(m => m.icon)).toEqual(expectedIcons)
   })
 
   it('looks up memory icon by character name', () => {
     expect(getMemoryMaterialIcon('星乃一歌')).toBe('/icons/memory/item_memoria_1.png')
-    expect(getMemoryMaterialIcon('初音未来')).toBe('/icons/memory/item_memoria_21.png')
+    expect(getMemoryMaterialIcon('镜音铃')).toBe('/icons/memory/item_memoria_22.png')
+    expect(getMemoryMaterialIcon('巡音流歌')).toBe('/icons/memory/item_memoria_24.png')
+    expect(getMemoryMaterialIcon('MEIKO')).toBe('/icons/memory/item_memoria_25.png')
     expect(getMemoryMaterialIcon('KAITO')).toBe('/icons/memory/item_memoria_26.png')
     expect(getMemoryMaterialIcon('不存在的角色')).toBeUndefined()
   })
