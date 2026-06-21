@@ -7,6 +7,7 @@ import { UNITS } from '@/lib/recipes'
 import { getMaterialName, compareMaterialShortage } from '@/lib/materials'
 import { calculateGlobalRequirements } from '@/lib/calculator'
 import { MaterialIconSlot } from './material-icon-slot'
+import { UnitLogo } from './unit-logo'
 import { UnitOverviewCard } from './unit-overview-card'
 import { UnitDetailPanel } from './unit-detail-panel'
 
@@ -72,7 +73,9 @@ export function MaterialDashboard() {
           <TabsList className="mb-4 flex flex-nowrap h-auto gap-1 overflow-x-auto w-full justify-start [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:flex-wrap md:overflow-visible md:w-auto md:justify-center">
             <TabsTrigger className="flex-none md:flex-1" value="global">全局</TabsTrigger>
             {UNITS.map(unit => (
-              <TabsTrigger className="flex-none md:flex-1" key={unit.id} value={unit.id}>{unit.name}</TabsTrigger>
+              <TabsTrigger className="flex-none md:flex-1 px-2" key={unit.id} value={unit.id} title={unit.name}>
+                <UnitLogo unit={unit} size="sm" />
+              </TabsTrigger>
             ))}
           </TabsList>
           <TabsContent value="global">

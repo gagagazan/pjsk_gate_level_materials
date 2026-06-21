@@ -3,6 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { LevelSlider } from './level-slider'
 import { LevelBreakdown } from './level-breakdown'
+import { UnitLogo } from './unit-logo'
 import { useAppState } from '@/lib/state'
 import { UNITS } from '@/lib/recipes'
 import { calculateUnitRequirements } from '@/lib/calculator'
@@ -24,8 +25,9 @@ export function UnitDetailPanel({ unitId }: { unitId: string }) {
   return (
     <Card data-testid="unit-detail-panel" className="border-[#E0E0E0]" id={`unit-${unit.id}`}>
       <CardHeader>
-        <CardTitle className="text-base" style={{ color: unit.color }}>
-          {unit.name}
+        <CardTitle className="text-base flex items-center gap-2" style={{ color: unit.color }}>
+          <UnitLogo unit={unit} size="md" />
+          <span className="truncate">{unit.name}</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">

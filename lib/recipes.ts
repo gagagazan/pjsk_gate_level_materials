@@ -57,6 +57,7 @@ const ln: UnitConfig = {
   id: 'ln',
   name: 'Leo/need',
   color: '#4455DD',
+  logo: '/unit-logos/logo_light_sound.png',
   vsMembers: UNIT_MEMBERS['ln'].vsMembers,
   ocMembers: UNIT_MEMBERS['ln'].ocMembers,
   recipes: [
@@ -107,6 +108,7 @@ const mmj: UnitConfig = {
   id: 'mmj',
   name: 'MORE MORE JUMP!',
   color: '#FFCC00',
+  logo: '/unit-logos/logo_idol.png',
   vsMembers: UNIT_MEMBERS['mmj'].vsMembers,
   ocMembers: UNIT_MEMBERS['mmj'].ocMembers,
   recipes: [
@@ -157,6 +159,7 @@ const vbs: UnitConfig = {
   id: 'vbs',
   name: 'Vivid BAD SQUAD',
   color: '#FF6699',
+  logo: '/unit-logos/logo_street.png',
   vsMembers: UNIT_MEMBERS['vbs'].vsMembers,
   ocMembers: UNIT_MEMBERS['vbs'].ocMembers,
   recipes: [
@@ -207,6 +210,7 @@ const ws: UnitConfig = {
   id: 'ws',
   name: 'Wonderlands×Showtime',
   color: '#FF9900',
+  logo: '/unit-logos/logo_theme_park.png',
   vsMembers: UNIT_MEMBERS['ws'].vsMembers,
   ocMembers: UNIT_MEMBERS['ws'].ocMembers,
   recipes: [
@@ -257,6 +261,7 @@ const point25: UnitConfig = {
   id: '25',
   name: '25点，Nightcord见。',
   color: '#884499',
+  logo: '/unit-logos/logo_school_refusal.png',
   vsMembers: UNIT_MEMBERS['25'].vsMembers,
   ocMembers: UNIT_MEMBERS['25'].ocMembers,
   recipes: [
