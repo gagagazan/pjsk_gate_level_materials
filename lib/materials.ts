@@ -60,6 +60,9 @@ const UNIT_MEMBER_NAMES: Record<string, { oc: string[]; vs: string[] }> = {
 
 const UNIT_ORDER = ['ln', 'mmj', 'vbs', 'ws', '25'] as const
 
+// VS 角色官方默认顺序：放在记忆材料列表末尾。
+const VS_ORDER = ['KAITO', 'MEIKO', '巡音流歌', '镜音连', '镜音铃', '初音未来'] as const
+
 function memoryMeta(name: string): MaterialMeta {
   return {
     key: `memory-${name}`,
@@ -68,20 +71,32 @@ function memoryMeta(name: string): MaterialMeta {
   }
 }
 
-// 记忆材料：按"各团 oc -> 各团 vs"的顺序遍历并去重。
+// 记忆材料：OC 保持各团首次出现顺序；VS 统一按官方默认顺序排在末尾。
 // 同一角色（如初音未来）出现在多个团的 vs 中，但视为同一种材料。
 export const MEMORY_MATERIALS: MaterialMeta[] = (() => {
-  const seen = new Set<string>()
-  const result: MaterialMeta[] = []
+  const seenOc = new Set<string>()
+  const seenVs = new Set<string>()
+  const ocList: MaterialMeta[] = []
+  const vsList: MaterialMeta[] = []
+
   for (const unitId of UNIT_ORDER) {
     const { oc, vs } = UNIT_MEMBER_NAMES[unitId]
-    for (const name of [...oc, ...vs]) {
-      if (seen.has(name)) continue
-      seen.add(name)
-      result.push(memoryMeta(name))
+    for (const name of oc) {
+      if (seenOc.has(name)) continue
+      seenOc.add(name)
+      ocList.push(memoryMeta(name))
+    }
+    for (const name of vs) {
+      if (seenVs.has(name)) continue
+      seenVs.add(name)
+      vsList.push(memoryMeta(name))
     }
   }
-  return result
+
+  const orderedVs = VS_ORDER.filter(name => vsList.some(m => m.name === `${name}的记忆`))
+    .map(name => memoryMeta(name))
+
+  return [...ocList, ...orderedVs]
 })()
 
 export const MATERIALS: MaterialMeta[] = [...BASE_MATERIALS, ...MEMORY_MATERIALS]
@@ -90,13 +105,13 @@ export const MATERIAL_MAP: Record<string, MaterialMeta> = Object.fromEntries(
   MATERIALS.map(m => [m.key, m])
 )
 
-// 共享材料分组：库存页按此顺序展示，缺口排序也使用同一顺序（记忆材料在前，基础材料在后）
+// 共享材料分组：库存页按此顺序展示，缺口排序也使用同一顺序（基础材料在前，记忆材料在后）
 export const MATERIAL_SECTIONS = [
-  { id: 'memory', label: '记忆材料', items: MEMORY_MATERIALS },
   { id: 'basic', label: '基础材料', items: BASE_MATERIALS },
+  { id: 'memory', label: '记忆材料', items: MEMORY_MATERIALS },
 ] as const
 
-const SHARED_ORDER: MaterialMeta[] = [...MEMORY_MATERIALS, ...BASE_MATERIALS]
+const SHARED_ORDER: MaterialMeta[] = [...BASE_MATERIALS, ...MEMORY_MATERIALS]
 const SORT_INDEX_MAP = new Map(SHARED_ORDER.map((m, i) => [m.key, i]))
 
 export function getMaterialName(key: string): string {

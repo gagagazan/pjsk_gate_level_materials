@@ -28,39 +28,40 @@ const BASE_MATERIAL_NAMES = [
   '空白的音色',
 ]
 
-// MEMORY_MATERIALS 是去重的唯一材料列表，按"各团 oc -> vs"顺序首次出现排列。
+// MEMORY_MATERIALS 是去重的唯一材料列表，OC 按各团首次出现顺序排列，VS 按官方默认顺序排在末尾。
 const MEMORY_ORDER = [
-  // Leo/need
+  // Leo/need OC
   '星乃一歌的记忆',
   '天马咲希的记忆',
   '望月穗波的记忆',
   '日野森志步的记忆',
-  '初音未来的记忆',
-  '巡音流歌的记忆',
-  // MORE MORE JUMP!
+  // MORE MORE JUMP! OC
   '花里实乃理的记忆',
   '桐谷遥的记忆',
   '桃井爱莉的记忆',
   '日野森雫的记忆',
-  '镜音铃的记忆',
-  // Vivid BAD SQUAD
+  // Vivid BAD SQUAD OC
   '小豆泽心羽的记忆',
   '白石杏的记忆',
   '东云彰人的记忆',
   '青柳冬弥的记忆',
-  '镜音连的记忆',
-  'MEIKO的记忆',
-  // Wonderlands×Showtime
+  // Wonderlands×Showtime OC
   '天马司的记忆',
   '凤笑梦的记忆',
   '草薙宁宁的记忆',
   '神代类的记忆',
-  'KAITO的记忆',
-  // 25点
+  // 25点 OC
   '宵崎奏的记忆',
   '朝比奈真冬的记忆',
   '东云绘名的记忆',
   '晓山瑞希的记忆',
+  // VS 官方默认顺序
+  'KAITO的记忆',
+  'MEIKO的记忆',
+  '巡音流歌的记忆',
+  '镜音连的记忆',
+  '镜音铃的记忆',
+  '初音未来的记忆',
 ]
 
 describe('MATERIALS order and names', () => {
@@ -78,10 +79,10 @@ describe('MATERIALS order and names', () => {
     expect(MEMORY_MATERIALS.map(m => m.name)).toEqual(MEMORY_ORDER)
   })
 
-  it('groups materials into memory and basic sections', () => {
-    expect(MATERIAL_SECTIONS.map(s => s.id)).toEqual(['memory', 'basic'])
-    expect(MATERIAL_SECTIONS[0].items.map(m => m.name)).toEqual(MEMORY_ORDER)
-    expect(MATERIAL_SECTIONS[1].items.map(m => m.name)).toEqual(BASE_MATERIAL_NAMES)
+  it('groups materials into basic and memory sections', () => {
+    expect(MATERIAL_SECTIONS.map(s => s.id)).toEqual(['basic', 'memory'])
+    expect(MATERIAL_SECTIONS[0].items.map(m => m.name)).toEqual(BASE_MATERIAL_NAMES)
+    expect(MATERIAL_SECTIONS[1].items.map(m => m.name)).toEqual(MEMORY_ORDER)
   })
 
   it('classifies material keys into sections', () => {
@@ -90,12 +91,12 @@ describe('MATERIALS order and names', () => {
     expect(getMaterialSection('unknown-key')).toBeUndefined()
   })
 
-  it('sorts by shared material order with memory before basic', () => {
-    const memoryFirst = getMaterialSortIndex('memory-初音未来')
+  it('sorts by shared material order with basic before memory', () => {
     const basicFirst = getMaterialSortIndex('wish-wood')
-    const memoryLast = getMaterialSortIndex('memory-晓山瑞希')
-    expect(memoryFirst).toBeLessThan(basicFirst)
-    expect(memoryLast).toBeLessThan(basicFirst)
+    const memoryFirst = getMaterialSortIndex('memory-KAITO')
+    const memoryLast = getMaterialSortIndex('memory-初音未来')
+    expect(basicFirst).toBeLessThan(memoryFirst)
+    expect(memoryFirst).toBeLessThan(memoryLast)
     expect(getMaterialSortIndex('unknown-key')).toBe(Number.MAX_SAFE_INTEGER)
   })
 
