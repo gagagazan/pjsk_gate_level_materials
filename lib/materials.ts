@@ -61,7 +61,7 @@ const UNIT_MEMBER_NAMES: Record<string, { oc: string[]; vs: string[] }> = {
 const UNIT_ORDER = ['ln', 'mmj', 'vbs', 'ws', '25'] as const
 
 // VS 角色官方默认顺序：放在记忆材料列表末尾。
-const VS_ORDER = ['KAITO', 'MEIKO', '巡音流歌', '镜音连', '镜音铃', '初音未来'] as const
+const VS_ORDER = ['初音未来', '镜音铃', '镜音连', '巡音流歌', 'MEIKO', 'KAITO'] as const
 
 function memoryMeta(name: string): MaterialMeta {
   return {

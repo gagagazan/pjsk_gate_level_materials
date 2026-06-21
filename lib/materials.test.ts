@@ -56,12 +56,12 @@ const MEMORY_ORDER = [
   '东云绘名的记忆',
   '晓山瑞希的记忆',
   // VS 官方默认顺序
-  'KAITO的记忆',
-  'MEIKO的记忆',
-  '巡音流歌的记忆',
-  '镜音连的记忆',
-  '镜音铃的记忆',
   '初音未来的记忆',
+  '镜音铃的记忆',
+  '镜音连的记忆',
+  '巡音流歌的记忆',
+  'MEIKO的记忆',
+  'KAITO的记忆',
 ]
 
 describe('MATERIALS order and names', () => {
@@ -96,7 +96,7 @@ describe('MATERIALS order and names', () => {
     const memoryFirst = getMaterialSortIndex('memory-KAITO')
     const memoryLast = getMaterialSortIndex('memory-初音未来')
     expect(basicFirst).toBeLessThan(memoryFirst)
-    expect(memoryFirst).toBeLessThan(memoryLast)
+    expect(memoryLast).toBeLessThan(memoryFirst)
     expect(getMaterialSortIndex('unknown-key')).toBe(Number.MAX_SAFE_INTEGER)
   })
 
