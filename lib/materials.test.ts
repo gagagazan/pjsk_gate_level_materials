@@ -100,9 +100,18 @@ describe('MATERIALS order and names', () => {
     expect(getMaterialSortIndex('unknown-key')).toBe(Number.MAX_SAFE_INTEGER)
   })
 
-  it('assigns memory icons in order matching the source PNG index', () => {
+  it('assigns base icons from key-mapped PNGs', () => {
+    const expectedBaseIcons = BASE_MATERIAL_NAMES.map(
+      name => `/icons/base/${MATERIALS.find(m => m.name === name)!.key}.png`
+    )
+    const actualBase = MATERIALS.slice(0, BASE_MATERIAL_NAMES.length).map(m => m.icon)
+    expect(actualBase).toEqual(expectedBaseIcons)
+  })
+
+  it('preserves memory icon assignment behavior', () => {
+    const memoryIcons = MEMORY_MATERIALS.map(m => m.icon)
     const expectedIcons = MEMORY_ORDER.map((_, i) => `/icons/memory/item_memoria_${i + 1}.png`)
-    expect(MEMORY_MATERIALS.map(m => m.icon)).toEqual(expectedIcons)
+    expect(memoryIcons).toEqual(expectedIcons)
   })
 
   it('looks up memory icon by character name', () => {
