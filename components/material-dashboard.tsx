@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useAppState } from '@/lib/state'
 import { UNITS } from '@/lib/recipes'
-import { getMaterialName, getMaterialSortIndex } from '@/lib/materials'
+import { getMaterialName, compareMaterialShortage } from '@/lib/materials'
 import { calculateGlobalRequirements } from '@/lib/calculator'
 import { MaterialIconSlot } from './material-icon-slot'
 import { UnitOverviewCard } from './unit-overview-card'
@@ -26,11 +26,7 @@ function SummaryTable({ required }: { required: Map<string, number> }) {
       need,
       gap: Math.max(0, need - (state.inventory[key] ?? 0)),
     }))
-    .sort((a, b) => {
-      if (a.gap === 0 && b.gap > 0) return 1
-      if (a.gap > 0 && b.gap === 0) return -1
-      return getMaterialSortIndex(a.key) - getMaterialSortIndex(b.key)
-    })
+    .sort(compareMaterialShortage)
 
   if (rows.length === 0) return <p className="text-sm text-[#757575]">无需材料</p>
 

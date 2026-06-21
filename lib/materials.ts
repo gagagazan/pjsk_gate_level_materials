@@ -143,3 +143,26 @@ export function getMemoryMaterialIcon(name: string): string | undefined {
 export function getMaterialSortIndex(key: string): number {
   return SORT_INDEX_MAP.get(key) ?? Number.MAX_SAFE_INTEGER
 }
+
+/** Compare two material keys using the same order as the inventory page. */
+export function compareMaterialOrder(aKey: string, bKey: string): number {
+  return getMaterialSortIndex(aKey) - getMaterialSortIndex(bKey)
+}
+
+export interface MaterialShortageEntry {
+  key: string
+  have: number
+  need: number
+}
+
+/**
+ * Sort missing materials before non-missing materials, and within each group
+ * preserve the inventory page order.
+ */
+export function compareMaterialShortage(a: MaterialShortageEntry, b: MaterialShortageEntry): number {
+  const aGap = Math.max(0, a.need - a.have)
+  const bGap = Math.max(0, b.need - b.have)
+  if (aGap === 0 && bGap > 0) return 1
+  if (aGap > 0 && bGap === 0) return -1
+  return compareMaterialOrder(a.key, b.key)
+}

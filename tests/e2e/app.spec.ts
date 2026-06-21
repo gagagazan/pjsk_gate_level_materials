@@ -139,8 +139,7 @@ test.describe('gap tabs', () => {
     await expect(page.getByTestId('unit-detail-panel').getByText('MORE MORE JUMP!')).toBeVisible()
   })
 
-  test('shortage rows sort by missing first then material order', async ({ page }) => {
-    // Leo/need target level 3 creates OC memory shortages and keeps basic gaps
+  test('shortage rows sort by missing first then inventory order', async ({ page }) => {
     const card = page.locator('#overview-ln')
     const sliders = card.locator('[role="slider"]')
     await sliders.nth(1).click()
@@ -148,13 +147,34 @@ test.describe('gap tabs', () => {
     await page.keyboard.press('ArrowRight')
     await expect(card.getByText('Lv.1 → Lv.3')).toBeVisible()
 
-    // Give the first base material in shared order to make it "不缺"
+    // Make the first base material in shared order not missing.
     await page.getByRole('navigation').getByRole('button', { name: '库存' }).click()
-    await page.getByLabel('星乃一歌的记忆').fill('99')
+    await page.getByLabel('心愿木材').fill('999')
+    await page.getByLabel('星乃一歌的记忆').fill('0')
+
+    // Capture the inventory page order as the source of truth.
+    const inventoryNames = await page
+      .getByTestId('section-inventory')
+      .locator('label.text-sm.text-\\[\\#212121\\]')
+      .allTextContents()
 
     await page.getByRole('navigation').getByRole('button', { name: '材料缺口' }).click()
     const rows = page.getByTestId('section-gaps').locator('.divide-y > div')
-    const firstRow = rows.first()
-    await expect(firstRow.getByText(/缺 /)).toBeVisible()
+
+    // Every row before the first non-missing row must be missing.
+    const names = await rows.locator('span.text-\\[\\#212121\\]').allTextContents()
+    const gaps = await rows.locator('span').filter({ hasText: /^(缺 \d+|充足)$/ }).allTextContents()
+    const firstSufficientIndex = gaps.findIndex(text => text === '充足')
+
+    for (let i = 0; i < gaps.length; i++) {
+      if (firstSufficientIndex === -1 || i < firstSufficientIndex) {
+        expect(gaps[i]).toMatch(/^缺 \d+$/)
+      }
+    }
+
+    // Order inside each bucket must match the inventory page order.
+    const missingNames = firstSufficientIndex === -1 ? names : names.slice(0, firstSufficientIndex)
+    const expectedMissingNames = inventoryNames.filter(name => missingNames.includes(name))
+    expect(missingNames).toEqual(expectedMissingNames)
   })
 })
