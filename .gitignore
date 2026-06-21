@@ -29,6 +29,7 @@
 .codex-tmp
 .claude/
 .pi/
+.polly/
 *.pem
 
 # debug
