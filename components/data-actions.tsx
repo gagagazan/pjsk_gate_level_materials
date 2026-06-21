@@ -49,15 +49,18 @@ export function DataActions() {
         className="sr-only"
         aria-hidden="true"
       />
-      <Button variant="outline" size="sm" onClick={handleExport}>
-        <Download className="w-4 h-4 mr-1" /> 导出
+      <Button variant="outline" size="sm" onClick={handleExport} title="导出">
+        <Download className="w-4 h-4" />
+        <span className="hidden sm:inline ml-1">导出</span>
       </Button>
-      <Button variant="outline" size="sm" onClick={handleImportClick}>
-        <Upload className="w-4 h-4 mr-1" /> 导入
+      <Button variant="outline" size="sm" onClick={handleImportClick} title="导入">
+        <Upload className="w-4 h-4" />
+        <span className="hidden sm:inline ml-1">导入</span>
       </Button>
       <ResetDialog onConfirm={() => dispatch({ type: 'RESET_STATE' })}>
-        <Button variant="outline" size="sm" className="text-destructive">
-          <Trash2 className="w-4 h-4 mr-1" /> 重置
+        <Button variant="outline" size="sm" className="text-destructive" title="重置">
+          <Trash2 className="w-4 h-4" />
+          <span className="hidden sm:inline ml-1">重置</span>
         </Button>
       </ResetDialog>
     </div>

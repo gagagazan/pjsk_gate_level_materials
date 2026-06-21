@@ -50,7 +50,7 @@ function SummaryTable({ required }: { required: Map<string, number> }) {
 
 function GlobalProgressGrid() {
   return (
-    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
       {UNITS.map(unit => (
         <UnitOverviewCard key={unit.id} unit={unit} />
       ))}
@@ -69,10 +69,10 @@ export function MaterialDashboard() {
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="global">
-          <TabsList className="mb-4 flex flex-wrap h-auto gap-1">
-            <TabsTrigger value="global">全局</TabsTrigger>
+          <TabsList className="mb-4 flex flex-nowrap h-auto gap-1 overflow-x-auto w-full justify-start [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:flex-wrap md:overflow-visible md:w-auto md:justify-center">
+            <TabsTrigger className="flex-none md:flex-1" value="global">全局</TabsTrigger>
             {UNITS.map(unit => (
-              <TabsTrigger key={unit.id} value={unit.id}>{unit.name}</TabsTrigger>
+              <TabsTrigger className="flex-none md:flex-1" key={unit.id} value={unit.id}>{unit.name}</TabsTrigger>
             ))}
           </TabsList>
           <TabsContent value="global">
