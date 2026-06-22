@@ -31,6 +31,7 @@
 .pi/
 .polly/
 .worktrees/
+/docs/superpowers/
 *.pem
 
 # debug
