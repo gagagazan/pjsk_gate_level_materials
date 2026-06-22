@@ -39,3 +39,8 @@ npm run build
 - Vivid BAD SQUAD
 - Wonderlands×Showtime
 - 25点，Nightcord见。
+
+## 版权声明
+
+本项目为玩家自制的非官方工具，与 SEGA、Colorful Palette、Crypton Future Media 等官方无关。
+游戏名称、角色、素材版权归各自权利人所有，仅供个人学习与交流使用。

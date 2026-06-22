@@ -1,8 +1,14 @@
 {
-  "name": "next-app",
+  "name": "pjsk-gate-level-materials",
   "version": "0.0.1",
   "type": "module",
   "private": true,
+  "license": "MIT",
+  "author": "Azan <wangzan@a-zan.xyz>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gagagazan/pjsk_gate_level_materials.git"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

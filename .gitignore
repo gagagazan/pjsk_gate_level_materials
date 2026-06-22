@@ -30,6 +30,7 @@
 .claude/
 .pi/
 .polly/
+.worktrees/
 *.pem
 
 # debug
