@@ -1,8 +1,12 @@
-import { UnitConfig, MaterialItem } from './types'
+import { UnitConfig, MaterialItem } from "./types"
 
 export interface UnitRequirements {
   totalRequired: Map<string, number>
   byLevel: Map<number, MaterialItem[]>
+}
+
+export function getLevelCost(unit: UnitConfig, level: number): MaterialItem[] {
+  return unit.recipes.find((recipe) => recipe.level === level)?.materials ?? []
 }
 
 export function calculateUnitRequirements(
@@ -32,7 +36,11 @@ export function calculateGlobalRequirements(
   for (const unit of units) {
     const state = unitStates[unit.id]
     if (!state || state.target <= state.current) continue
-    const { totalRequired } = calculateUnitRequirements(unit, state.current, state.target)
+    const { totalRequired } = calculateUnitRequirements(
+      unit,
+      state.current,
+      state.target
+    )
     for (const [key, count] of totalRequired) {
       global.set(key, (global.get(key) ?? 0) + count)
     }
