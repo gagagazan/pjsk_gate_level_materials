@@ -1,18 +1,19 @@
-'use client'
+"use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { LevelSlider } from './level-slider'
-import { LevelBreakdown } from './level-breakdown'
-import { UnitLogo } from './unit-logo'
-import { useAppState } from '@/lib/state'
-import { UNITS } from '@/lib/recipes'
-import { calculateUnitRequirements } from '@/lib/calculator'
-import { compareMaterialShortage, getMaterialName } from '@/lib/materials'
-import { Separator } from '@/components/ui/separator'
-import { MaterialIconSlot } from './material-icon-slot'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { LevelSlider } from "./level-slider"
+import { LevelBreakdown } from "./level-breakdown"
+import { UnitLogo } from "./unit-logo"
+import { UnitLevelControls } from "./unit-overview-card"
+import { useAppState } from "@/lib/state"
+import { UNITS } from "@/lib/recipes"
+import { calculateUnitRequirements } from "@/lib/calculator"
+import { compareMaterialShortage, getMaterialName } from "@/lib/materials"
+import { Separator } from "@/components/ui/separator"
+import { MaterialIconSlot } from "./material-icon-slot"
 
 export function UnitDetailPanel({ unitId }: { unitId: string }) {
-  const unit = UNITS.find(u => u.id === unitId)
+  const unit = UNITS.find((u) => u.id === unitId)
   const { state, dispatch } = useAppState()
 
   if (!unit) {
@@ -20,31 +21,47 @@ export function UnitDetailPanel({ unitId }: { unitId: string }) {
   }
 
   const progress = state.units[unit.id]
-  const { totalRequired, byLevel } = calculateUnitRequirements(unit, progress.current, progress.target)
+  const { totalRequired, byLevel } = calculateUnitRequirements(
+    unit,
+    progress.current,
+    progress.target
+  )
 
   return (
-    <Card data-testid="unit-detail-panel" className="border-[#E0E0E0]" id={`unit-${unit.id}`}>
+    <Card
+      data-testid="unit-detail-panel"
+      className="border-[#E0E0E0]"
+      id={`unit-${unit.id}`}
+    >
       <CardHeader>
-        <CardTitle className="text-base flex items-center gap-2" style={{ color: unit.color }}>
+        <CardTitle
+          className="flex items-center gap-2 text-base"
+          style={{ color: unit.color }}
+        >
           <UnitLogo unit={unit} size="md" />
           <span className="truncate">{unit.name}</span>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <CardContent className="flex flex-col gap-4">
+        <UnitLevelControls unit={unit} />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <LevelSlider
             label="当前等级"
             value={progress.current}
             min={1}
             max={40}
-            onChange={(v) => dispatch({ type: 'SET_CURRENT', unitId: unit.id, value: v })}
+            onChange={(v) =>
+              dispatch({ type: "SET_CURRENT", unitId: unit.id, value: v })
+            }
           />
           <LevelSlider
             label="目标等级"
             value={progress.target}
             min={progress.current}
             max={40}
-            onChange={(v) => dispatch({ type: 'SET_TARGET', unitId: unit.id, value: v })}
+            onChange={(v) =>
+              dispatch({ type: "SET_TARGET", unitId: unit.id, value: v })
+            }
           />
         </div>
         <Separator />
@@ -60,14 +77,25 @@ export function UnitDetailPanel({ unitId }: { unitId: string }) {
               })
               .sort(compareMaterialShortage)
               .map(({ key, need, have, gap }) => (
-                <div key={key} className="flex items-center justify-between py-2 text-sm gap-3">
-                  <div className="flex items-center gap-3 min-w-0">
+                <div
+                  key={key}
+                  className="flex items-center justify-between gap-3 py-2 text-sm"
+                >
+                  <div className="flex min-w-0 items-center gap-3">
                     <MaterialIconSlot materialKey={key} />
-                    <span className="text-[#212121] truncate">{getMaterialName(key)}</span>
+                    <span className="truncate text-[#212121]">
+                      {getMaterialName(key)}
+                    </span>
                   </div>
-                  <div className="flex items-center gap-3 shrink-0">
-                    <span className="text-[#757575]">{have} / {need}</span>
-                    {gap > 0 && <span className="text-xs font-bold text-[#E91E63]">缺 {gap}</span>}
+                  <div className="flex shrink-0 items-center gap-3">
+                    <span className="text-[#757575]">
+                      {have} / {need}
+                    </span>
+                    {gap > 0 && (
+                      <span className="text-xs font-bold text-[#E91E63]">
+                        缺 {gap}
+                      </span>
+                    )}
                   </div>
                 </div>
               ))}
