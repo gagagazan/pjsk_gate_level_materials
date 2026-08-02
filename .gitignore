@@ -26,6 +26,7 @@
 # misc
 .DS_Store
 .vscode/
+.idea/
 .codex-tmp
 .claude/
 .pi/
