@@ -17,30 +17,33 @@ const ITEMS: { id: SectionId; label: string }[] = [
 
 export function SectionRail({ active, onChange }: SectionRailProps) {
   return (
-    <nav
-      role="navigation"
-      aria-label="分区导航"
-      className="hidden md:flex flex-col gap-1 w-16 lg:w-48 shrink-0 py-3 px-2 border-r bg-[#FAFAFA] border-[#E0E0E0]"
-    >
-      {ITEMS.map(item => (
-        <Button
-          key={item.id}
-          variant="ghost"
-          onClick={() => onChange(item.id)}
-          className={cn(
-            'justify-start gap-3 h-10 px-3 text-sm font-medium transition-colors',
-            active === item.id
-              ? 'bg-[#2E7D67]/10 text-[#2E7D67] hover:bg-[#2E7D67]/15'
-              : 'text-[#757575] hover:bg-[#EEEEEE] hover:text-[#212121]'
-          )}
-        >
-          <span className="hidden lg:inline">{item.label}</span>
-          <span className="lg:hidden w-6 h-6 flex items-center justify-center rounded bg-[#2E7D67]/10 text-xs font-bold text-[#2E7D67]">
-            {item.label.charAt(0)}
-          </span>
-        </Button>
-      ))}
-    </nav>
+    <aside className="hidden w-16 shrink-0 border-r border-[#E0E0E0] bg-[#FAFAFA] md:block lg:w-48">
+      <nav
+        role="navigation"
+        aria-label="分区导航"
+        data-testid="section-rail"
+        className="sticky top-[calc(3.5rem+1px)] flex flex-col gap-1 px-2 py-3"
+      >
+        {ITEMS.map(item => (
+          <Button
+            key={item.id}
+            variant="ghost"
+            onClick={() => onChange(item.id)}
+            className={cn(
+              'h-10 justify-start gap-3 px-3 text-sm font-medium transition-colors',
+              active === item.id
+                ? 'bg-[#2E7D67]/10 text-[#2E7D67] hover:bg-[#2E7D67]/15'
+                : 'text-[#757575] hover:bg-[#EEEEEE] hover:text-[#212121]'
+            )}
+          >
+            <span className="hidden lg:inline">{item.label}</span>
+            <span className="flex h-6 w-6 items-center justify-center rounded bg-[#2E7D67]/10 text-xs font-bold text-[#2E7D67] lg:hidden">
+              {item.label.charAt(0)}
+            </span>
+          </Button>
+        ))}
+      </nav>
+    </aside>
   )
 }
 

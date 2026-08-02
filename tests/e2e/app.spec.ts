@@ -70,6 +70,17 @@ test('export and import round-trip', async ({ page }) => {
 })
 
 test.describe('rail navigation', () => {
+  test('stays below the app bar while the page scrolls', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 720 })
+    const rail = page.getByTestId('section-rail')
+    const topBeforeScroll = await rail.evaluate(element => element.getBoundingClientRect().top)
+
+    await page.evaluate(() => window.scrollTo(0, 200))
+
+    expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0)
+    expect(await rail.evaluate(element => element.getBoundingClientRect().top)).toBe(topBeforeScroll)
+  })
+
   test('shows only gaps and inventory, defaulting to gaps', async ({ page }) => {
     await expect(page.getByRole('navigation').getByRole('button', { name: '材料缺口' })).toBeVisible()
     await expect(page.getByRole('navigation').getByRole('button', { name: '库存' })).toBeVisible()
