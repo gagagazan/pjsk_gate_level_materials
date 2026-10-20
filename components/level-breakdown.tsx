@@ -13,14 +13,14 @@ export function LevelBreakdown({ byLevel }: LevelBreakdownProps) {
 
   return (
     <Collapsible>
-      <CollapsibleTrigger className="flex items-center text-sm text-[#2E7D67] hover:underline">
+      <CollapsibleTrigger className="flex items-center text-sm text-brand hover:underline">
         查看每级明细 <ChevronDown className="w-4 h-4 ml-1" />
       </CollapsibleTrigger>
       <CollapsibleContent className="mt-2 space-y-2">
         {Array.from(byLevel.entries()).map(([level, materials]) => (
-          <div key={level} className="text-sm border-l-2 border-[#E0E0E0] pl-3">
-            <div className="font-medium text-[#757575]">Lv.{level - 1} → Lv.{level}</div>
-            <div className="text-[#212121] space-y-1">
+          <div key={level} className="text-sm border-l-2 border-border pl-3">
+            <div className="font-medium text-muted-foreground">Lv.{level - 1} → Lv.{level}</div>
+            <div className="text-foreground space-y-1">
               {materials.map((m, idx) => (
                 <div key={`${level}-${idx}`} className="flex items-center gap-2">
                   <MaterialIconSlot className="w-5 h-5" materialKey={m.key} />

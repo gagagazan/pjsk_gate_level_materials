@@ -14,10 +14,10 @@ export function MaterialRow({ meta }: MaterialRowProps) {
   const value = state.inventory[meta.key] ?? 0
 
   return (
-    <div className="flex items-center justify-between py-2 border-b border-[#E0E0E0] last:border-0 gap-3">
+    <div className="flex items-center justify-between py-2 border-b border-border last:border-0 gap-3">
       <div className="flex items-center gap-3 min-w-0">
         <MaterialIconSlot materialKey={meta.key} />
-        <label htmlFor={`inv-${meta.key}`} className="text-sm text-[#212121] truncate">
+        <label htmlFor={`inv-${meta.key}`} className="text-sm text-foreground truncate">
           {meta.name}
         </label>
       </div>

@@ -44,9 +44,10 @@ test('export and import round-trip', async ({ page }) => {
   await page.getByRole('navigation').getByRole('button', { name: '库存' }).click()
   await page.getByLabel('心愿木材').fill('42')
 
+  await page.getByRole('button', { name: '导出' }).click()
   const [download] = await Promise.all([
     page.waitForEvent('download'),
-    page.getByRole('button', { name: '导出' }).click(),
+    page.getByRole('menuitem', { name: /下载 JSON 文件/ }).click(),
   ])
   const path = await download.path()
   expect(path).toBeTruthy()
@@ -64,6 +65,7 @@ test('export and import round-trip', async ({ page }) => {
 
   // Import the exported file
   await page.getByRole('button', { name: '导入' }).click()
+  await page.getByRole('menuitem', { name: /从文件导入/ }).click()
   await page.getByTestId('import-file-input').setInputFiles(path!)
 
   await expect(page.getByLabel('心愿木材')).toHaveValue('42')
@@ -166,14 +168,14 @@ test.describe('gap tabs', () => {
     // Capture the inventory page order as the source of truth.
     const inventoryNames = await page
       .getByTestId('section-inventory')
-      .locator('label.text-sm.text-\\[\\#212121\\]')
+      .locator('label[for^="inv-"]')
       .allTextContents()
 
     await page.getByRole('navigation').getByRole('button', { name: '材料缺口' }).click()
     const rows = page.getByTestId('section-gaps').locator('.divide-y > div')
 
     // Every row before the first non-missing row must be missing.
-    const names = await rows.locator('span.text-\\[\\#212121\\]').allTextContents()
+    const names = await rows.locator('span.truncate').allTextContents()
     const gaps = await rows.locator('span').filter({ hasText: /^(缺 \d+|充足)$/ }).allTextContents()
     const firstSufficientIndex = gaps.findIndex(text => text === '充足')
 

@@ -13,8 +13,8 @@ import { UnitDetailPanel } from './unit-detail-panel'
 
 function GapBadge({ have, need }: { have: number; need: number }) {
   const gap = Math.max(0, need - have)
-  if (gap === 0) return <span className="text-xs text-[#2E7D67]">充足</span>
-  return <span className="text-xs font-bold text-[#E91E63]">缺 {gap}</span>
+  if (gap === 0) return <span className="text-xs text-brand">充足</span>
+  return <span className="text-xs font-bold text-shortage">缺 {gap}</span>
 }
 
 function SummaryTable({ required }: { required: Map<string, number> }) {
@@ -29,18 +29,18 @@ function SummaryTable({ required }: { required: Map<string, number> }) {
     }))
     .sort(compareMaterialShortage)
 
-  if (rows.length === 0) return <p className="text-sm text-[#757575]">无需材料</p>
+  if (rows.length === 0) return <p className="text-sm text-muted-foreground">无需材料</p>
 
   return (
-    <div className="divide-y divide-[#E0E0E0]">
+    <div className="divide-y divide-border">
       {rows.map(row => (
         <div key={row.key} className="flex items-center justify-between py-2 text-sm gap-3">
           <div className="flex items-center gap-3 min-w-0">
             <MaterialIconSlot materialKey={row.key} />
-            <span className="text-[#212121] truncate">{row.name}</span>
+            <span className="text-foreground truncate">{row.name}</span>
           </div>
           <div className="flex items-center gap-4 shrink-0">
-            <span className="text-[#757575]">{row.have} / {row.need}</span>
+            <span className="text-muted-foreground">{row.have} / {row.need}</span>
             <GapBadge have={row.have} need={row.need} />
           </div>
         </div>
@@ -64,9 +64,9 @@ export function MaterialDashboard() {
   const global = calculateGlobalRequirements(UNITS, state.units)
 
   return (
-    <Card className="border-[#E0E0E0]">
+    <Card className="border-border">
       <CardHeader>
-        <CardTitle data-testid="gaps-heading" className="text-base text-[#212121]">材料缺口汇总</CardTitle>
+        <CardTitle data-testid="gaps-heading" className="text-base text-foreground">材料缺口汇总</CardTitle>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="global">

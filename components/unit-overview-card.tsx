@@ -23,7 +23,7 @@ export function UnitLevelControls({ unit }: { unit: UnitConfig }) {
   return (
     <div className="flex w-full flex-col items-center gap-3">
       <div
-        className="lv-display text-center text-sm text-[#757575]"
+        className="lv-display text-center text-sm text-muted-foreground"
         aria-live="polite"
       >
         Lv.{progress.current} → Lv.{progress.target}
@@ -33,7 +33,7 @@ export function UnitLevelControls({ unit }: { unit: UnitConfig }) {
           type="button"
           variant="outline"
           size="sm"
-          className="min-w-0 flex-1 hover:border-[#2E7D67] hover:text-[#2E7D67] max-[479px]:h-11"
+          className="min-w-0 flex-1 hover:border-brand hover:text-brand max-[479px]:h-11"
           disabled={progress.current <= 1}
           onClick={() => dispatch({ type: "LEVEL_DOWN", unitId: unit.id })}
           aria-label="降 1 级"
@@ -49,7 +49,7 @@ export function UnitLevelControls({ unit }: { unit: UnitConfig }) {
           type="button"
           variant="outline"
           size="sm"
-          className="min-w-0 flex-1 hover:border-[#2E7D67] hover:text-[#2E7D67] max-[479px]:h-11"
+          className="min-w-0 flex-1 hover:border-brand hover:text-brand max-[479px]:h-11"
           disabled={!canLevelUp}
           onClick={() => dispatch({ type: "LEVEL_UP", unitId: unit.id })}
           aria-label="升 1 级"
@@ -64,7 +64,7 @@ export function UnitLevelControls({ unit }: { unit: UnitConfig }) {
       </div>
       {shortage.length > 0 && (
         <div
-          className="text-center text-xs font-semibold text-[#E91E63]"
+          className="text-center text-xs font-semibold text-shortage"
           aria-live="polite"
         >
           · 缺{" "}
@@ -82,11 +82,11 @@ export function UnitOverviewCard({ unit }: { unit: UnitConfig }) {
   const progress = state.units[unit.id]
 
   return (
-    <Card className="border-[#E0E0E0] bg-[#FAFAFA]" id={`overview-${unit.id}`}>
+    <Card className="border-border bg-sidebar" id={`overview-${unit.id}`}>
       <CardHeader className="pb-2">
         <CardTitle
-          className="flex items-center gap-2 text-base"
-          style={{ color: unit.color }}
+          className="unit-heading flex items-center gap-2 text-base"
+          style={{ "--unit-color": unit.color } as React.CSSProperties}
         >
           <UnitLogo unit={unit} size="sm" />
           <span className="truncate">{unit.name}</span>

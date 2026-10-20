@@ -22,13 +22,13 @@ export function UnitDetailTabs() {
       }}
       className="space-y-4"
     >
-      <TabsList className="flex flex-wrap h-auto gap-1 bg-[#FAFAFA] p-1 border border-[#E0E0E0]">
+      <TabsList className="flex flex-wrap h-auto gap-1 bg-sidebar p-1 border border-border">
         {UNITS.map(unit => (
           <TabsTrigger
             key={unit.id}
             value={unit.id}
-            className="text-xs data-[state=active]:bg-white data-[state=active]:text-[#2E7D67] data-[state=active]:shadow-sm"
-            style={{ color: active === unit.id ? unit.color : undefined }}
+            style={{ "--unit-color": unit.color } as React.CSSProperties}
+            className="unit-tab text-xs data-[state=active]:bg-background data-[state=active]:shadow-sm"
           >
             {unit.name}
           </TabsTrigger>

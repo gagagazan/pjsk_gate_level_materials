@@ -17,7 +17,7 @@ const ITEMS: { id: SectionId; label: string }[] = [
 
 export function SectionRail({ active, onChange }: SectionRailProps) {
   return (
-    <aside className="hidden w-16 shrink-0 border-r border-[#E0E0E0] bg-[#FAFAFA] md:block lg:w-48">
+    <aside className="hidden w-16 shrink-0 border-r border-sidebar-border bg-sidebar md:block lg:w-48">
       <nav
         role="navigation"
         aria-label="分区导航"
@@ -28,16 +28,17 @@ export function SectionRail({ active, onChange }: SectionRailProps) {
           <Button
             key={item.id}
             variant="ghost"
+            aria-current={active === item.id ? 'page' : undefined}
             onClick={() => onChange(item.id)}
             className={cn(
               'h-10 justify-start gap-3 px-3 text-sm font-medium transition-colors',
               active === item.id
-                ? 'bg-[#2E7D67]/10 text-[#2E7D67] hover:bg-[#2E7D67]/15'
-                : 'text-[#757575] hover:bg-[#EEEEEE] hover:text-[#212121]'
+                ? 'bg-brand/5 text-brand hover:bg-brand/10'
+                : 'text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
             )}
           >
             <span className="hidden lg:inline">{item.label}</span>
-            <span className="flex h-6 w-6 items-center justify-center rounded bg-[#2E7D67]/10 text-xs font-bold text-[#2E7D67] lg:hidden">
+            <span className="flex h-6 w-6 items-center justify-center rounded bg-brand/5 text-xs font-bold text-brand lg:hidden">
               {item.label.charAt(0)}
             </span>
           </Button>
@@ -52,19 +53,20 @@ export function MobileSectionTabs({ active, onChange }: SectionRailProps) {
     <nav
       role="navigation"
       aria-label="分区导航"
-      className="md:hidden flex items-center gap-1 px-4 py-2 border-b bg-[#FAFAFA] border-[#E0E0E0] overflow-x-auto"
+      className="md:hidden flex items-center gap-1 px-4 py-2 border-b bg-sidebar border-sidebar-border overflow-x-auto"
     >
       {ITEMS.map(item => (
         <Button
           key={item.id}
           variant="ghost"
           size="sm"
+          aria-current={active === item.id ? 'page' : undefined}
           onClick={() => onChange(item.id)}
           className={cn(
             'shrink-0 h-8 px-3 text-sm font-medium transition-colors',
             active === item.id
-              ? 'bg-[#2E7D67]/10 text-[#2E7D67] hover:bg-[#2E7D67]/15'
-              : 'text-[#757575] hover:bg-[#EEEEEE] hover:text-[#212121]'
+              ? 'bg-brand/5 text-brand hover:bg-brand/10'
+              : 'text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
           )}
         >
           {item.label}
