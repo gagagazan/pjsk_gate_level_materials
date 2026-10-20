@@ -5,6 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+    --color-brand: var(--app-primary);
+    --color-shortage: var(--app-accent);
     --font-heading: var(--font-sans);
     --font-sans: var(--font-sans);
     --color-sidebar-ring: var(--sidebar-ring);
@@ -129,13 +131,31 @@
 }
 
 :root {
+  --app-material-icon-filter: none;
   --app-primary: #2E7D67;
-  --app-accent: #E91E63;
-  --app-text: #212121;
-  --app-muted: #757575;
-  --app-border: #E0E0E0;
-  --app-surface: #FAFAFA;
-  --app-skeleton: #EEEEEE;
+  --app-accent: #D81B60;
+}
+
+/* Keep the brand hues readable against dark surfaces. */
+.dark {
+  --app-material-icon-filter: brightness(0.85) saturate(0.85);
+  --app-primary: #71C6AB;
+  --app-accent: #FF80AB;
+}
+
+/* Tone down the full material image, including its baked-in background. */
+.material-icon {
+  filter: var(--app-material-icon-filter);
+}
+
+.unit-heading,
+.unit-tab[data-state="active"] {
+  color: var(--unit-color);
+}
+
+.dark .unit-heading,
+.dark .unit-tab[data-state="active"] {
+  color: color-mix(in oklab, var(--unit-color), white 40%);
 }
 
 [data-slot="slider-thumb"] {

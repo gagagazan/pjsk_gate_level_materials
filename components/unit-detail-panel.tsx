@@ -30,13 +30,13 @@ export function UnitDetailPanel({ unitId }: { unitId: string }) {
   return (
     <Card
       data-testid="unit-detail-panel"
-      className="border-[#E0E0E0]"
+      className="border-border"
       id={`unit-${unit.id}`}
     >
       <CardHeader>
         <CardTitle
-          className="flex items-center gap-2 text-base"
-          style={{ color: unit.color }}
+          className="unit-heading flex items-center gap-2 text-base"
+          style={{ "--unit-color": unit.color } as React.CSSProperties}
         >
           <UnitLogo unit={unit} size="md" />
           <span className="truncate">{unit.name}</span>
@@ -66,9 +66,9 @@ export function UnitDetailPanel({ unitId }: { unitId: string }) {
         </div>
         <Separator />
         {totalRequired.size === 0 ? (
-          <p className="text-sm text-[#757575]">无需材料</p>
+          <p className="text-sm text-muted-foreground">无需材料</p>
         ) : (
-          <div className="divide-y divide-[#E0E0E0]">
+          <div className="divide-y divide-border">
             {Array.from(totalRequired.entries())
               .map(([key, need]) => {
                 const have = state.inventory[key] ?? 0
@@ -83,16 +83,16 @@ export function UnitDetailPanel({ unitId }: { unitId: string }) {
                 >
                   <div className="flex min-w-0 items-center gap-3">
                     <MaterialIconSlot materialKey={key} />
-                    <span className="truncate text-[#212121]">
+                    <span className="truncate text-foreground">
                       {getMaterialName(key)}
                     </span>
                   </div>
                   <div className="flex shrink-0 items-center gap-3">
-                    <span className="text-[#757575]">
+                    <span className="text-muted-foreground">
                       {have} / {need}
                     </span>
                     {gap > 0 && (
-                      <span className="text-xs font-bold text-[#E91E63]">
+                      <span className="text-xs font-bold text-shortage">
                         缺 {gap}
                       </span>
                     )}
