@@ -4,7 +4,8 @@ import { test, expect, type Locator } from '@playwright/test'
 // translucent surfaces over their ancestors before checking text contrast.
 async function expectReadable(locator: Locator) {
   await expect(locator).toBeVisible()
-  const contrast = await locator.evaluate(element => {
+  // Sample the settled hover/selection state rather than an intermediate CSS transition.
+  await expect.poll(async () => locator.evaluate(element => {
     const context = document.createElement('canvas').getContext('2d')!
     context.canvas.width = context.canvas.height = 1
     function rgba(color: string) {
@@ -30,8 +31,7 @@ async function expectReadable(locator: Locator) {
     }
     const values = [luminance(foreground), luminance(background)].sort((a, b) => b - a)
     return (values[0] + 0.05) / (values[1] + 0.05)
-  })
-  expect(contrast, `Text contrast for ${await locator.textContent()}`).toBeGreaterThanOrEqual(4.5)
+  }), { message: `Text contrast for ${await locator.textContent()}` }).toBeGreaterThanOrEqual(4.5)
 }
 
 for (const theme of ['light', 'dark'] as const) {
@@ -66,6 +66,8 @@ for (const theme of ['light', 'dark'] as const) {
     await inventoryButton.click()
     await expect(inventoryButton).toHaveAttribute('aria-current', 'page')
     await expectReadable(inventoryButton)
+    const icon = page.locator('img[data-testid="material-icon-slot"]').first()
+    await expect(icon).toHaveCSS('filter', theme === 'dark' ? 'brightness(0.85) saturate(0.85)' : 'none')
     await expectReadable(page.getByTestId('inventory-heading'))
     await expectReadable(page.getByRole('heading', { name: '基础材料' }))
     const wood = page.getByLabel('心愿木材', { exact: true })
@@ -79,6 +81,7 @@ for (const theme of ['light', 'dark'] as const) {
     await navigation.getByRole('button', { name: '材料缺口' }).click()
 
     const card = page.locator('#overview-ln')
+    await expect(card.locator('img').first()).toHaveCSS('filter', 'none')
     await expectReadable(card.locator('.unit-heading'))
     await expectReadable(card.getByText('目标等级', { exact: true }))
     const slider = card.getByRole('slider').nth(1)

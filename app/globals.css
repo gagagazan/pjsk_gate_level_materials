@@ -131,14 +131,21 @@
 }
 
 :root {
+  --app-material-icon-filter: none;
   --app-primary: #2E7D67;
   --app-accent: #D81B60;
 }
 
 /* Keep the brand hues readable against dark surfaces. */
 .dark {
+  --app-material-icon-filter: brightness(0.85) saturate(0.85);
   --app-primary: #71C6AB;
   --app-accent: #FF80AB;
+}
+
+/* Tone down the full material image, including its baked-in background. */
+.material-icon {
+  filter: var(--app-material-icon-filter);
 }
 
 .unit-heading,

@@ -18,7 +18,7 @@ export function MaterialIconSlot({ className, materialKey }: MaterialIconSlotPro
         alt=""
         width={32}
         height={32}
-        className={cn('shrink-0 w-8 h-8 rounded-md object-contain', className)}
+        className={cn('material-icon shrink-0 w-8 h-8 rounded-md object-contain', className)}
       />
     )
   }
